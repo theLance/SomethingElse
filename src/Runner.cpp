@@ -50,22 +50,16 @@ void Runner::execute_keyboard_input()
 {
   if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
 
-  if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
-  if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
   if(m_keys_pressed[SDLK_UP])    m_fallobj.rotate_object();
   if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
+  if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
+  if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
 }
 
 void Runner::calculate_block_position(Coordinates coord)
 {
   m_objpos.x = coord.x * GRID_UNIT + m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
   m_objpos.y = (coord.y + 1) * GRID_UNIT;
-}
-
-void Runner::draw_square_to(Coordinates coord)
-{
-  calculate_block_position(coord);
-  SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
 }
 
 void Runner::draw_squares_to(std::vector<Coordinates> coords)

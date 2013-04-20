@@ -38,9 +38,8 @@ bool FallingObject::check_if_move_possible(Coordinates dest_coord)
   for(auto coord : m_coordinates)
   {
     if( coord.x + dest_coord.x < 0 ||
-       coord.x + dest_coord.x >= GRID_WIDTH ||
-       coord.y + dest_coord.y >= GRID_HEIGHT
-       || coord.y + dest_coord.y < 0) ///REMOVE THIS AFTER ROTATION IS IMPLEMENTED!!!
+        coord.x + dest_coord.x >= GRID_WIDTH ||
+        coord.y + dest_coord.y >= GRID_HEIGHT )
     {
       return false;
     }
@@ -98,7 +97,6 @@ void FallingObject::move_obj_down()
   else
   {
     m_board->register_squares_to_board(get_coordinates());
-    m_board->check_for_completed_lines();
     reset_object();
   }
 }

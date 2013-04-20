@@ -13,9 +13,9 @@ public:
   void register_squares_to_board(std::vector<Coordinates> coords);
   unsigned get_cell_value(Coordinates coord);
   std::vector<Coordinates> get_occupied_fields();
-  void check_for_completed_lines();   ///can be private, if called only from register_object
 
 private:
+  void check_for_completed_lines();   ///can be private, if called only from register_object
   void rearrange_rows();
 
   std::vector<std::vector<unsigned>> m_board_array;
