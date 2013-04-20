@@ -18,6 +18,8 @@ struct Coordinates
 {
   Coordinates() : x(0), y(0) {}
   Coordinates(int a, int b) : x(a), y(b) {}
+
+  Coordinates operator+(Coordinates other) { return (Coordinates(x+other.x, y+other.y)); }
   int x;
   int y;
 };

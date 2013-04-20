@@ -3,9 +3,10 @@
 #include <algorithm>
 
 
-void Board::register_to_board(Coordinates coord)
+void Board::register_squares_to_board(std::vector<Coordinates> coords)
 {
-  m_board_array[coord.y][coord.x] = 1;
+  std::for_each(coords.begin(), coords.end(),
+                [&](Coordinates coord){m_board_array[coord.y][coord.x] = 1;});
 }
 
 unsigned Board::get_cell_value(Coordinates coord)
@@ -29,13 +30,45 @@ std::vector<Coordinates> Board::get_occupied_fields()
   return coords;
 }
 
+void Board::rearrange_rows()
+{
+  auto row = m_board_array.begin();
+  while(row != m_board_array.end() && 0 == std::count(row->begin(), row->end(), 1))
+  {
+    ++row;
+  }
+
+  auto first_unempty_line = row;
+
+  while(++row != m_board_array.end())
+  {
+    if(std::count(row->begin(), row->end(), 1) == 0)
+    {
+      auto temp_row = row;
+      while(temp_row != first_unempty_line)
+      {
+        temp_row->swap(*(temp_row-1));
+        temp_row--;
+      }
+      first_unempty_line++;
+    }
+  }
+}
+
 void Board::check_for_completed_lines()
 {
+  bool is_rearrangement_needed = false;
   for(auto& row : m_board_array)
   {
     if(GRID_WIDTH == std::count(row.begin(), row.end(), 1))
     {
       std::replace(row.begin(), row.end(), 1, 0);
+      is_rearrangement_needed = true;
     }
+  }
+
+  if(is_rearrangement_needed)
+  {
+    rearrange_rows();
   }
 }

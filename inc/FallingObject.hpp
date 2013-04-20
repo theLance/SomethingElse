@@ -9,7 +9,7 @@ class FallingObject
 {
 public:
   FallingObject(Board* board) : m_board(board) {}
-  Coordinates get_coordinates() { return m_coordinates; }
+  std::vector<Coordinates> get_coordinates();
   void reset_object();
 
   void move_obj_up();
@@ -20,8 +20,9 @@ public:
 private:
   bool check_if_move_possible(Coordinates dest_coord);
 
-  Coordinates m_coordinates;
-  Board*      m_board;
+  Coordinates               m_center_coord;
+  std::vector<Coordinates>  m_coordinates;
+  Board*                    m_board;
 };
 
 #endif // FALLINGOBJECT_HPP_INCLUDED

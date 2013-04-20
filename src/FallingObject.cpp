@@ -1,45 +1,65 @@
 #include "FallingObject.hpp"
 
-
+std::vector<Coordinates> FallingObject::get_coordinates()
+{
+  std::vector<Coordinates> coords;
+  for(auto coord : m_coordinates)
+  {
+    coords.push_back(Coordinates(coord.x + m_center_coord.x, coord.y + m_center_coord.y));
+  }
+  return coords;
+}
 void FallingObject::reset_object()
 {
+  m_coordinates.clear();
+  //spawn to center top
+  m_center_coord.x = GRID_WIDTH / 2;
+  m_center_coord.y = 1;
+
   //get random type
   ///TODO
 
-  //check if spawning possible (if not, game over)
+  m_coordinates.push_back(Coordinates(0, 0));
+  m_coordinates.push_back(Coordinates(0, -1));
+  m_coordinates.push_back(Coordinates(0, 1));
+  m_coordinates.push_back(Coordinates(-1, +1));
 
-  //spawn to center top
-  m_coordinates.x = GRID_WIDTH / 2;
-  m_coordinates.y = 0;
+  //check if spawning possible (if not, game over)
 }
 
 bool FallingObject::check_if_move_possible(Coordinates dest_coord)
 {
-  if( dest_coord.x < 0 || dest_coord.x >= GRID_WIDTH || dest_coord.y >= GRID_HEIGHT
-     || dest_coord.y < 0) ///REMOVE THIS AFTER ROTATION IS IMPLEMENTED!!!
+  for(auto coord : m_coordinates)
   {
-    return false;
+    if( coord.x + dest_coord.x < 0 ||
+       coord.x + dest_coord.x >= GRID_WIDTH ||
+       coord.y + dest_coord.y >= GRID_HEIGHT
+       || coord.y + dest_coord.y < 0) ///REMOVE THIS AFTER ROTATION IS IMPLEMENTED!!!
+    {
+      return false;
+    }
+    if(m_board->get_cell_value(coord + dest_coord))
+    {
+      return false;
+    }
   }
-  if(m_board->get_cell_value(dest_coord))
-  {
-    return false;
-  }
+
   return true;
 }
 
 void FallingObject::move_obj_left()
 {
-  if(check_if_move_possible( Coordinates(m_coordinates.x - 1, m_coordinates.y) ))
+  if(check_if_move_possible( Coordinates(m_center_coord.x - 1, m_center_coord.y) ))
   {
-    m_coordinates.x--;
+    m_center_coord.x--;
   }
 }
 
 void FallingObject::move_obj_right()
 {
-  if(check_if_move_possible( Coordinates(m_coordinates.x + 1, m_coordinates.y) ))
+  if(check_if_move_possible( Coordinates(m_center_coord.x + 1, m_center_coord.y) ))
   {
-    m_coordinates.x++;
+    m_center_coord.x++;
   }
 }
 
@@ -47,21 +67,21 @@ void FallingObject::move_obj_up()
 {
   ///ROTATE !!!
 
-  if(check_if_move_possible( Coordinates(m_coordinates.x, m_coordinates.y - 1) ))
+  if(check_if_move_possible( Coordinates(m_center_coord.x, m_center_coord.y - 1) ))
   {
-    m_coordinates.y--;
+    m_center_coord.y--;
   }
 }
 
 void FallingObject::move_obj_down()
 {
-  if(check_if_move_possible( Coordinates(m_coordinates.x, m_coordinates.y + 1) ))
+  if(check_if_move_possible( Coordinates(m_center_coord.x, m_center_coord.y + 1) ))
   {
-    m_coordinates.y++;
+    m_center_coord.y++;
   }
   else
   {
-    m_board->register_to_board(m_coordinates);
+    m_board->register_squares_to_board(get_coordinates());
     m_board->check_for_completed_lines();
     reset_object();
   }

@@ -68,6 +68,15 @@ void Runner::draw_square_to(Coordinates coord)
   SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
 }
 
+void Runner::draw_squares_to(std::vector<Coordinates> coords)
+{
+  for(auto coord : coords)
+  {
+    calculate_block_position(coord);
+    SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
+  }
+}
+
 int Runner::run_app()
 {
   if(initialize())
@@ -84,11 +93,15 @@ int Runner::run_app()
   std::vector<Coordinates> occupied_fields;
 
   /*******************/
-//  m_board.register_to_board(Coordinates(5,5));
-//  m_board.register_to_board(Coordinates(5,3));
-//  m_board.register_to_board(Coordinates(3,5));
+  std::vector<Coordinates> teststuff;
+  teststuff.push_back(Coordinates(4,GRID_HEIGHT-5));
+  teststuff.push_back(Coordinates(3,GRID_HEIGHT-4));
+  teststuff.push_back(Coordinates(4,GRID_HEIGHT-3));
+  teststuff.push_back(Coordinates(3,GRID_HEIGHT-2));
   for(int i = 0; i < GRID_WIDTH-1; ++i)
-    m_board.register_to_board(Coordinates(i,GRID_HEIGHT-1));
+    teststuff.push_back(Coordinates(i,GRID_HEIGHT-1));
+
+  m_board.register_squares_to_board(teststuff);
   /*******************/
 
   while(m_running)
@@ -119,12 +132,10 @@ int Runner::run_app()
     SDL_BlitSurface(m_background, 0, m_screen, 0);
 
     ///DRAW
-    //Falling object
-    draw_square_to(m_fallobj.get_coordinates());
+    //Object
+    draw_squares_to(m_fallobj.get_coordinates());
     //Board
-    occupied_fields = m_board.get_occupied_fields();
-    std::for_each(occupied_fields.begin(), occupied_fields.end(),
-                  std::bind1st(std::mem_fun(&Runner::draw_square_to), this));
+    draw_squares_to(m_board.get_occupied_fields());
 
     SDL_Flip(m_screen);
   }

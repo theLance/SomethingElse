@@ -23,6 +23,7 @@ private:
   void execute_keyboard_input();
 
   void calculate_block_position(Coordinates coord);
+  void draw_squares_to(std::vector<Coordinates> coords);
   void draw_square_to(Coordinates coord);
 
   bool          m_keys_pressed[323];
