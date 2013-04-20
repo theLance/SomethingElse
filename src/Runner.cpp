@@ -1,5 +1,8 @@
 #include <Runner.hpp>
 
+#include <algorithm>
+#include <functional>
+
 int Runner::initialize()
 {
   std::cerr << "Initializing SDL" << std::endl;
@@ -27,6 +30,8 @@ int Runner::initialize()
     std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
     return 1;
   }
+
+  m_fallobj.reset_object();
 
   return 0;
 }
@@ -57,6 +62,12 @@ void Runner::calculate_block_position(Coordinates coord)
   m_objpos.y = (coord.y + 1) * GRID_UNIT;
 }
 
+void Runner::draw_square_to(Coordinates coord)
+{
+  calculate_block_position(coord);
+  SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
+}
+
 int Runner::run_app()
 {
   if(initialize())
@@ -70,6 +81,15 @@ int Runner::run_app()
   float last_input_tick = SDL_GetTicks();
   float current_time;
   m_game_speed = STARTING_SPEED;
+  std::vector<Coordinates> occupied_fields;
+
+  /*******************/
+//  m_board.register_to_board(Coordinates(5,5));
+//  m_board.register_to_board(Coordinates(5,3));
+//  m_board.register_to_board(Coordinates(3,5));
+  for(int i = 0; i < GRID_WIDTH-1; ++i)
+    m_board.register_to_board(Coordinates(i,GRID_HEIGHT-1));
+  /*******************/
 
   while(m_running)
   {
@@ -98,11 +118,14 @@ int Runner::run_app()
     SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
     SDL_BlitSurface(m_background, 0, m_screen, 0);
 
-    ///UPDATE OBJECT POSITION
-    calculate_block_position(m_fallobj.get_coordinates());
+    ///DRAW
+    //Falling object
+    draw_square_to(m_fallobj.get_coordinates());
+    //Board
+    occupied_fields = m_board.get_occupied_fields();
+    std::for_each(occupied_fields.begin(), occupied_fields.end(),
+                  std::bind1st(std::mem_fun(&Runner::draw_square_to), this));
 
-    ///DRAW ALL
-    SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
     SDL_Flip(m_screen);
   }
 

@@ -14,5 +14,12 @@
 /** Squares are 30*30p **/
 /** Board is 10*18 squares, which falls 2 short of standard, but whacchagonnado **/
 
+struct Coordinates
+{
+  Coordinates() : x(0), y(0) {}
+  Coordinates(int a, int b) : x(a), y(b) {}
+  int x;
+  int y;
+};
 
 #endif // DEFINES_H_INCLUDED
