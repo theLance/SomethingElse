@@ -1,5 +1,7 @@
 #include "FallingObject.hpp"
 
+#include <algorithm>
+
 std::vector<Coordinates> FallingObject::get_coordinates()
 {
   std::vector<Coordinates> coords;
@@ -12,7 +14,6 @@ std::vector<Coordinates> FallingObject::get_coordinates()
 void FallingObject::reset_object()
 {
   m_coordinates.clear();
-  //spawn to center top
   m_center_coord.x = GRID_WIDTH / 2;
   m_center_coord.y = 1;
 
@@ -24,7 +25,12 @@ void FallingObject::reset_object()
   m_coordinates.push_back(Coordinates(0, 1));
   m_coordinates.push_back(Coordinates(-1, +1));
 
-  //check if spawning possible (if not, game over)
+  ///check if spawning possible (if not, game over)
+  if(!check_if_move_possible(m_center_coord))
+  {
+    ///END GAME
+    throw 2;
+  }
 }
 
 bool FallingObject::check_if_move_possible(Coordinates dest_coord)
@@ -63,13 +69,23 @@ void FallingObject::move_obj_right()
   }
 }
 
-void FallingObject::move_obj_up()
+std::vector<Coordinates> FallingObject::rotate()
 {
-  ///ROTATE !!!
+  std::vector<Coordinates> rotated_obj;
 
-  if(check_if_move_possible( Coordinates(m_center_coord.x, m_center_coord.y - 1) ))
+  std::for_each(m_coordinates.begin(), m_coordinates.end(),
+                [&](Coordinates coord){ rotated_obj.push_back(Coordinates(coord.y*-1, coord.x)); });
+
+  return rotated_obj;
+}
+
+void FallingObject::rotate_object()
+{
+  std::vector<Coordinates> orig = m_coordinates;
+  m_coordinates = rotate();
+  if(!check_if_move_possible( m_center_coord ))
   {
-    m_center_coord.y--;
+    m_coordinates = orig;
   }
 }
 

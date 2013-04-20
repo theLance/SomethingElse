@@ -52,7 +52,7 @@ void Runner::execute_keyboard_input()
 
   if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
-  if(m_keys_pressed[SDLK_UP])    m_fallobj.move_obj_up();
+  if(m_keys_pressed[SDLK_UP])    m_fallobj.rotate_object();
   if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
 }
 

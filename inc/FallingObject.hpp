@@ -12,13 +12,14 @@ public:
   std::vector<Coordinates> get_coordinates();
   void reset_object();
 
-  void move_obj_up();
+  void rotate_object();
   void move_obj_down();
   void move_obj_left();
   void move_obj_right();
 
 private:
   bool check_if_move_possible(Coordinates dest_coord);
+  std::vector<Coordinates> rotate();
 
   Coordinates               m_center_coord;
   std::vector<Coordinates>  m_coordinates;
