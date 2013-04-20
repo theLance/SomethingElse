@@ -5,21 +5,18 @@
 
 #include "Defines.h"
 
+struct Coordinates
+{
+  Coordinates() : x(0), y(0) {}
+  int x;
+  int y;
+};
+
 class FallingObject
 {
-  struct Boundries
-  {
-    int left;
-    int right;
-    int upper;
-    int lower;
-  };
-
 public:
-  SDL_Rect* get_current_position() { return &m_currpos; }
-
-  void set_bounds(SDL_Surface* screen, SDL_Surface* square);
-  Boundries get_bounds() { return m_bounds; }
+  Coordinates get_coordinates() { return m_coordinates; }
+  void reset_object();
 
   void move_obj_up();
   void move_obj_down();
@@ -27,8 +24,7 @@ public:
   void move_obj_right();
 
 private:
-  SDL_Rect  m_currpos;
-  Boundries m_bounds;
+  Coordinates m_coordinates;
 };
 
 #endif // FALLINGOBJECT_HPP_INCLUDED

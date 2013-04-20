@@ -22,7 +22,7 @@ private:
   void analyze_keyboard_input(SDL_Event& event);
   void execute_keyboard_input();
 
-  void move_block_down();
+  void calculate_block_position(Coordinates coord);
 
   bool          m_keys_pressed[323];
   bool          m_running;
@@ -33,6 +33,7 @@ private:
   float         m_game_speed;
 
   FallingObject m_fallobj;
+  SDL_Rect      m_objpos;
 };
 
 

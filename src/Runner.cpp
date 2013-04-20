@@ -28,8 +28,6 @@ int Runner::initialize()
     return 1;
   }
 
-  m_fallobj.set_bounds(m_screen, m_square);
-
   return 0;
 }
 
@@ -51,6 +49,12 @@ void Runner::execute_keyboard_input()
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
   if(m_keys_pressed[SDLK_UP])    m_fallobj.move_obj_up();
   if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
+}
+
+void Runner::calculate_block_position(Coordinates coord)
+{
+  m_objpos.x = coord.x * GRID_UNIT + m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
+  m_objpos.y = (coord.y + 1) * GRID_UNIT;
 }
 
 int Runner::run_app()
@@ -94,9 +98,13 @@ int Runner::run_app()
     SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
     SDL_BlitSurface(m_background, 0, m_screen, 0);
 
+    ///UPDATE OBJECT POSITION
+    calculate_block_position(m_fallobj.get_coordinates());
+
     ///DRAW ALL
-    SDL_BlitSurface(m_square, 0, m_screen, m_fallobj.get_current_position());
+    SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
     SDL_Flip(m_screen);
   }
+
   return 0;
 }
