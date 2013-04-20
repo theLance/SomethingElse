@@ -1,4 +1,5 @@
 #include "FallingObject.hpp"
+#include "ObjectCreator.hpp"
 
 #include <algorithm>
 
@@ -13,17 +14,11 @@ std::vector<Coordinates> FallingObject::get_coordinates()
 }
 void FallingObject::reset_object()
 {
-  m_coordinates.clear();
   m_center_coord.x = GRID_WIDTH / 2;
   m_center_coord.y = 1;
 
   //get random type
-  ///TODO
-
-  m_coordinates.push_back(Coordinates(0, 0));
-  m_coordinates.push_back(Coordinates(0, -1));
-  m_coordinates.push_back(Coordinates(0, 1));
-  m_coordinates.push_back(Coordinates(-1, +1));
+  m_coordinates = ObjectCreator::get_random_object();
 
   ///check if spawning possible (if not, game over)
   if(!check_if_move_possible(m_center_coord))
@@ -100,3 +95,4 @@ void FallingObject::move_obj_down()
     reset_object();
   }
 }
+

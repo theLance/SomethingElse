@@ -1,9 +1,10 @@
 #ifndef FALLINGOBJECT_HPP_INCLUDED
 #define FALLINGOBJECT_HPP_INCLUDED
 
-#include "SDL/SDL.h"
+#include <SDL/SDL.h>
 
 #include "Board.hpp"
+
 
 class FallingObject
 {
@@ -25,5 +26,6 @@ private:
   std::vector<Coordinates>  m_coordinates;
   Board*                    m_board;
 };
+
 
 #endif // FALLINGOBJECT_HPP_INCLUDED
