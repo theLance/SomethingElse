@@ -17,7 +17,6 @@ void FallingObject::reset_object()
   m_center_coord.x = GRID_WIDTH / 2;
   m_center_coord.y = 1;
 
-  //get random type
   m_coordinates = ObjectCreator::get_random_object();
 
   ///check if spawning possible (if not, game over)
@@ -38,7 +37,7 @@ bool FallingObject::check_if_move_possible(const Coordinates& dest_coord)
     {
       return false;
     }
-    if(m_board->get_cell_value(coord + dest_coord))
+    if(m_board.get_cell_value(coord + dest_coord))
     {
       return false;
     }
@@ -91,7 +90,7 @@ void FallingObject::move_obj_down()
   }
   else
   {
-    m_board->register_squares_to_board(get_coordinates());
+    m_board.register_squares_to_board(get_coordinates());
     reset_object();
   }
 }

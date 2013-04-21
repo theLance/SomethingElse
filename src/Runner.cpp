@@ -1,5 +1,7 @@
 #include <Runner.hpp>
 
+#include <sstream>
+
 
 int Runner::initialize()
 {
@@ -9,9 +11,18 @@ int Runner::initialize()
                                          SDL_HWSURFACE | SDL_DOUBLEBUF);
   if(!m_screen)
   {
-    std::cerr << "Unable to load m_screen: " << SDL_GetError() << std::endl;
+    std::cerr << "Unable to load screen: " << SDL_GetError() << std::endl;
     return 1;
   }
+  ///TEXT
+  TTF_Init();
+  m_font = TTF_OpenFont("ARIAL.TTF", 20);
+
+  m_text_color = { 255, 255, 255 };
+  m_text_background = { 0, 0, 0 };
+
+  m_score_dest = { 10, 10, 0, 0 };
+  m_level_dest = { 10, 40, 0, 0 };
 
   //BLACK IS TRANSPARENT
   SDL_SetColorKey(m_screen, SDL_SRCCOLORKEY, SDL_MapRGB(m_screen->format, 0, 0, 0));
@@ -70,6 +81,24 @@ void Runner::draw_squares_to(const std::vector<Coordinates>& coords)
   }
 }
 
+void Runner::draw_score_board()
+{
+  std::stringstream ss;
+  std::string str;
+
+  ss << m_score_board.get_score() << " " << m_score_board.get_level();
+  ss >> str;
+
+  m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
+                                         m_text_color, m_text_background);
+  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_score_dest);
+
+  ss >> str;
+  m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
+                                         m_text_color, m_text_background);
+  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_level_dest);
+}
+
 int Runner::run_app()
 {
   if(initialize())
@@ -84,18 +113,6 @@ int Runner::run_app()
   float current_time;
   m_game_speed = STARTING_SPEED;
   std::vector<Coordinates> occupied_fields;
-
-  /*******************/
-  std::vector<Coordinates> teststuff;
-  teststuff.push_back(Coordinates(4,GRID_HEIGHT-5));
-  teststuff.push_back(Coordinates(3,GRID_HEIGHT-4));
-  teststuff.push_back(Coordinates(4,GRID_HEIGHT-3));
-  teststuff.push_back(Coordinates(3,GRID_HEIGHT-2));
-  for(int i = 0; i < GRID_WIDTH-1; ++i)
-    teststuff.push_back(Coordinates(i,GRID_HEIGHT-1));
-
-  m_board.register_squares_to_board(teststuff);
-  /*******************/
 
   while(m_running)
   {
@@ -120,6 +137,9 @@ int Runner::run_app()
       m_fallobj.move_obj_down();
     }
 
+    ///SET GAME PACE
+    m_game_speed = STARTING_SPEED - m_score_board.get_level()*20;
+
     ///CLEAR + BACKGROUND
     SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
     SDL_BlitSurface(m_background, 0, m_screen, 0);
@@ -129,10 +149,11 @@ int Runner::run_app()
     draw_squares_to(m_fallobj.get_coordinates());
     //Board
     draw_squares_to(m_board.get_occupied_fields());
+    //Score
+    draw_score_board();
 
     SDL_Flip(m_screen);
   }
 
   return 0;
 }
-

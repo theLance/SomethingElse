@@ -8,6 +8,8 @@
 #define STARTING_SPEED 600
 #define INPUT_SPEED    150
 
+#define BASE_SCORE_PER_LINE 10
+
 #define GRID_WIDTH  10
 #define GRID_HEIGHT 18
 #define GRID_UNIT 30

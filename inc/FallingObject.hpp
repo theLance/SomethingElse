@@ -9,7 +9,7 @@
 class FallingObject
 {
 public:
-  FallingObject(Board* board) : m_board(board) {}
+  FallingObject(Board& board) : m_board(board) {}
   std::vector<Coordinates> get_coordinates();
   void reset_object();
 
@@ -24,7 +24,7 @@ private:
 
   Coordinates               m_center_coord;
   std::vector<Coordinates>  m_coordinates;
-  Board*                    m_board;
+  Board&                    m_board;
 };
 
 

@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "SDL/SDL_ttf.h"
+
 #include "FallingObject.hpp"
 
 
@@ -10,8 +12,10 @@ class Runner
 {
 public:
   Runner() : WINDOW_WIDTH(WIDTH), WINDOW_HEIGHT(HEIGHT), m_keys_pressed(), m_running(true)
-           , m_screen(0), m_square(0), m_game_speed(STARTING_SPEED), m_fallobj(&m_board) {}
-  ~Runner() { SDL_FreeSurface(m_background); SDL_FreeSurface(m_square); SDL_Quit(); }
+           , m_screen(0), m_square(0), m_game_speed(STARTING_SPEED), m_board(m_score_board)
+           , m_fallobj(m_board), m_text_surface(0) {}
+  ~Runner() { TTF_CloseFont(m_font); SDL_FreeSurface(m_text_surface);
+              SDL_FreeSurface(m_background); SDL_FreeSurface(m_square); SDL_Quit(); }
 
   int run_app(); ///LATER: could be called from ctor
 private:
@@ -25,12 +29,23 @@ private:
   void calculate_block_position(const Coordinates& coord);
   void draw_squares_to(const std::vector<Coordinates>& coords);
 
+  void draw_score_board();
+
   bool          m_keys_pressed[323];
   bool          m_running;
 
   SDL_Surface*  m_screen;
   SDL_Surface*  m_background;
   SDL_Surface*  m_square;
+
+  TTF_Font*     m_font;
+  SDL_Color     m_text_color;
+  SDL_Color     m_text_background;
+  SDL_Surface*  m_text_surface;
+  SDL_Rect      m_score_dest;
+  SDL_Rect      m_level_dest;
+
+  Score         m_score_board;
 
   float         m_game_speed;
 

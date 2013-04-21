@@ -58,18 +58,19 @@ void Board::rearrange_rows()
 
 void Board::check_for_completed_lines()
 {
-  bool is_rearrangement_needed = false;
+  unsigned lines_cleared = 0;
   for(auto& row : m_board_array)
   {
     if(GRID_WIDTH == std::count(row.begin(), row.end(), 1))
     {
       std::replace(row.begin(), row.end(), 1, 0);
-      is_rearrangement_needed = true;
+      ++lines_cleared;
     }
   }
 
-  if(is_rearrangement_needed)
+  if(lines_cleared)
   {
+    m_score_board.update_score(lines_cleared);
     rearrange_rows();
   }
 }
