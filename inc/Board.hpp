@@ -10,7 +10,8 @@ class Board
 {
 public:
   Board(Score& score) : m_score_board(score)
-                      , m_board_array(GRID_HEIGHT, std::vector<unsigned>(GRID_WIDTH)) {}
+                      , m_board_array(GRID_HEIGHT, std::vector<unsigned>(GRID_WIDTH))
+                      {}
 
   void register_squares_to_board(const std::vector<Coordinates>& coords);
   unsigned get_cell_value(const Coordinates& coord);

@@ -82,7 +82,10 @@ void Runner::draw_squares_to(const std::vector<Coordinates>& coords)
   for(auto coord : coords)
   {
     calculate_block_position(coord);
-    SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
+    if(m_objpos.y > 0)
+    {
+      SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
+    }
   }
 }
 

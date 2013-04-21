@@ -6,7 +6,8 @@
 void Board::register_squares_to_board(const std::vector<Coordinates>& coords)
 {
   std::for_each(coords.begin(), coords.end(),
-                [&](Coordinates coord){m_board_array[coord.y][coord.x] = 1;});
+                [&](Coordinates coord){ if(coord.y >= 0) m_board_array[coord.y][coord.x] = 1;
+                                        else throw GameOver(); });
   check_for_completed_lines();
 }
 

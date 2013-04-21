@@ -1,6 +1,7 @@
 #ifndef DEFINES_H_INCLUDED
 #define DEFINES_H_INCLUDED
 
+#include <exception>
 
 #define WIDTH  800
 #define HEIGHT 600
@@ -15,6 +16,8 @@
 #define GRID_UNIT 30
 /** Squares are 30*30p **/
 /** Board is 10*18 squares, which falls 2 short of standard, but whacchagonnado **/
+
+class GameOver : public std::exception {  };
 
 struct Coordinates
 {

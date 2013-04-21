@@ -2,9 +2,6 @@
 #include "ObjectCreator.hpp"
 
 #include <algorithm>
-#include <exception>
-
-class GameOver : public std::exception {  };
 
 std::vector<Coordinates> FallingObject::get_coordinates()
 {
@@ -18,7 +15,7 @@ std::vector<Coordinates> FallingObject::get_coordinates()
 void FallingObject::reset_object()
 {
   m_center_coord.x = GRID_WIDTH / 2;
-  m_center_coord.y = 1;
+  m_center_coord.y = -1;
 
   m_coordinates = ObjectCreator::get_random_object();
 
@@ -39,7 +36,8 @@ bool FallingObject::check_if_move_possible(const Coordinates& dest_coord)
     {
       return false;
     }
-    if(m_board.get_cell_value(coord + dest_coord))
+    //IF in bounds (not yet floating above) AND not filled
+    if(coord.y + dest_coord.y > 0 && m_board.get_cell_value(coord + dest_coord))
     {
       return false;
     }
