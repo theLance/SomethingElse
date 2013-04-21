@@ -1,7 +1,5 @@
 #include <Runner.hpp>
 
-#include "SDL/SDL_ttf.h"
-
 
 int Runner::initialize()
 {
@@ -14,6 +12,7 @@ int Runner::initialize()
     std::cerr << "Unable to load m_screen: " << SDL_GetError() << std::endl;
     return 1;
   }
+
   //BLACK IS TRANSPARENT
   SDL_SetColorKey(m_screen, SDL_SRCCOLORKEY, SDL_MapRGB(m_screen->format, 0, 0, 0));
 
@@ -56,13 +55,13 @@ void Runner::execute_keyboard_input()
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
 }
 
-void Runner::calculate_block_position(Coordinates coord)
+void Runner::calculate_block_position(const Coordinates& coord)
 {
   m_objpos.x = coord.x * GRID_UNIT + m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
   m_objpos.y = (coord.y + 1) * GRID_UNIT;
 }
 
-void Runner::draw_squares_to(std::vector<Coordinates> coords)
+void Runner::draw_squares_to(const std::vector<Coordinates>& coords)
 {
   for(auto coord : coords)
   {
@@ -136,3 +135,4 @@ int Runner::run_app()
 
   return 0;
 }
+

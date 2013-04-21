@@ -22,8 +22,8 @@ private:
   void analyze_keyboard_input(SDL_Event& event);
   void execute_keyboard_input();
 
-  void calculate_block_position(Coordinates coord);
-  void draw_squares_to(std::vector<Coordinates> coords);
+  void calculate_block_position(const Coordinates& coord);
+  void draw_squares_to(const std::vector<Coordinates>& coords);
 
   bool          m_keys_pressed[323];
   bool          m_running;

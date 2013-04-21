@@ -28,7 +28,7 @@ void FallingObject::reset_object()
   }
 }
 
-bool FallingObject::check_if_move_possible(Coordinates dest_coord)
+bool FallingObject::check_if_move_possible(const Coordinates& dest_coord)
 {
   for(auto coord : m_coordinates)
   {

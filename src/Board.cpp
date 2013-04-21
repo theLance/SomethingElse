@@ -3,14 +3,14 @@
 #include <algorithm>
 
 
-void Board::register_squares_to_board(std::vector<Coordinates> coords)
+void Board::register_squares_to_board(const std::vector<Coordinates>& coords)
 {
   std::for_each(coords.begin(), coords.end(),
                 [&](Coordinates coord){m_board_array[coord.y][coord.x] = 1;});
   check_for_completed_lines();
 }
 
-unsigned Board::get_cell_value(Coordinates coord)
+unsigned Board::get_cell_value(const Coordinates& coord)
 {
   return m_board_array[coord.y][coord.x];
 }

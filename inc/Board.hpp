@@ -10,8 +10,8 @@ class Board
 public:
   Board() : m_board_array(GRID_HEIGHT, std::vector<unsigned>(GRID_WIDTH)) {}
 
-  void register_squares_to_board(std::vector<Coordinates> coords);
-  unsigned get_cell_value(Coordinates coord);
+  void register_squares_to_board(const std::vector<Coordinates>& coords);
+  unsigned get_cell_value(const Coordinates& coord);
   std::vector<Coordinates> get_occupied_fields();
 
 private:
