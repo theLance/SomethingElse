@@ -6,7 +6,7 @@
 #define HEIGHT 600
 
 #define STARTING_SPEED 600
-#define INPUT_SPEED    100
+#define INPUT_SPEED    150
 
 #define GRID_WIDTH  10
 #define GRID_HEIGHT 18

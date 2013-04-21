@@ -1,7 +1,7 @@
 #include <Runner.hpp>
 
-#include <algorithm>
-#include <functional>
+#include "SDL/SDL_ttf.h"
+
 
 int Runner::initialize()
 {
