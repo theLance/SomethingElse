@@ -47,6 +47,7 @@ private:
   SDL_Surface*  m_screen;
   SDL_Surface*  m_background;
   SDL_Surface*  m_square;
+  SDL_Rect      m_game_area_rim;
   SDL_Rect      m_game_area;
 
   TTF_Font*     m_font;

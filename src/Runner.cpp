@@ -20,6 +20,11 @@ int Runner::initialize()
   m_game_area.w = GRID_UNIT * GRID_WIDTH;
   m_game_area.h = GRID_UNIT * GRID_HEIGHT;
 
+  m_game_area_rim.x = m_game_area.x - 1;
+  m_game_area_rim.y = m_game_area.y - 1;
+  m_game_area_rim.w = m_game_area.w + 2;
+  m_game_area_rim.h = m_game_area.h + 2;
+
   TTF_Init();
   m_font = TTF_OpenFont("ARIAL.TTF", 20);
 
@@ -32,14 +37,14 @@ int Runner::initialize()
   //BLACK IS TRANSPARENT
   SDL_SetColorKey(m_screen, SDL_SRCCOLORKEY, SDL_MapRGB(m_screen->format, 0, 0, 0));
 
-  m_background = SDL_LoadBMP("background.bmp");
+  m_background = SDL_LoadBMP("pix/background.bmp");
   if(!m_background)
   {
     std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
     return 1;
   }
 
-  m_square = SDL_LoadBMP("square.bmp");
+  m_square = SDL_LoadBMP("pix/square.bmp");
   if(!m_square)
   {
     std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
@@ -111,7 +116,8 @@ void Runner::draw_all()
 {
   //BACKGROUND + CLEAR GAME AREA
   SDL_BlitSurface(m_background, 0, m_screen, 0);
-  SDL_FillRect(m_screen, &m_game_area, SDL_MapRGB(m_screen->format, 0, 0, 0));
+  SDL_FillRect(m_screen, &m_game_area_rim, SDL_MapRGB(m_screen->format, 0, 0, 0));
+  SDL_BlitSurface(m_background, &m_game_area, m_screen, &m_game_area);
 
   //DRAW
   //Object
