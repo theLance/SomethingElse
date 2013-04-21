@@ -109,10 +109,9 @@ void Runner::draw_score_board()
 
 void Runner::draw_all()
 {
-  //CLEAR + BACKGROUND + CLEAR GAME AREA
-  SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
+  //BACKGROUND + CLEAR GAME AREA
   SDL_BlitSurface(m_background, 0, m_screen, 0);
-  SDL_FillRect(m_screen, &m_game_area, SDL_MapRGB(m_screen->format, 255, 255, 255));
+  SDL_FillRect(m_screen, &m_game_area, SDL_MapRGB(m_screen->format, 0, 0, 0));
 
   //DRAW
   //Object
