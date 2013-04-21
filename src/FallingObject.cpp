@@ -2,6 +2,9 @@
 #include "ObjectCreator.hpp"
 
 #include <algorithm>
+#include <exception>
+
+class GameOver : public std::exception {  };
 
 std::vector<Coordinates> FallingObject::get_coordinates()
 {
@@ -22,8 +25,7 @@ void FallingObject::reset_object()
   ///check if spawning possible (if not, game over)
   if(!check_if_move_possible(m_center_coord))
   {
-    ///END GAME
-    throw 2;
+    throw GameOver();
   }
 }
 

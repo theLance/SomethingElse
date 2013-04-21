@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
   Runner runner;
-  runner.run_app();
+  runner.run();
+
   return 0;
 }

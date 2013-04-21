@@ -18,9 +18,9 @@ unsigned Board::get_cell_value(const Coordinates& coord)
 std::vector<Coordinates> Board::get_occupied_fields()
 {
   std::vector<Coordinates> coords;
-  for(int x = 0; x < m_board_array.size(); ++x)
+  for(unsigned x = 0; x < m_board_array.size(); ++x)
   {
-    for(int y = 0; y < m_board_array[x].size(); ++y)
+    for(unsigned y = 0; y < m_board_array[x].size(); ++y)
     {
       if(m_board_array[x][y] == 1)
       {

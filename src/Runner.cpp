@@ -14,7 +14,12 @@ int Runner::initialize()
     std::cerr << "Unable to load screen: " << SDL_GetError() << std::endl;
     return 1;
   }
-  ///TEXT
+
+  m_game_area.x = m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
+  m_game_area.y = GRID_UNIT;
+  m_game_area.w = GRID_UNIT * GRID_WIDTH;
+  m_game_area.h = GRID_UNIT * GRID_HEIGHT;
+
   TTF_Init();
   m_font = TTF_OpenFont("ARIAL.TTF", 20);
 
@@ -99,6 +104,24 @@ void Runner::draw_score_board()
   SDL_BlitSurface(m_text_surface, 0, m_screen, &m_level_dest);
 }
 
+void Runner::draw_all()
+{
+  //CLEAR + BACKGROUND + CLEAR GAME AREA
+  SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
+  SDL_BlitSurface(m_background, 0, m_screen, 0);
+  SDL_FillRect(m_screen, &m_game_area, SDL_MapRGB(m_screen->format, 255, 255, 255));
+
+  //DRAW
+  //Object
+  draw_squares_to(m_fallobj.get_coordinates());
+  //Board
+  draw_squares_to(m_board.get_occupied_fields());
+  //Score
+  draw_score_board();
+
+  SDL_Flip(m_screen);
+}
+
 int Runner::run_app()
 {
   if(initialize())
@@ -111,8 +134,6 @@ int Runner::run_app()
   float last_fall_tick = SDL_GetTicks();
   float last_input_tick = SDL_GetTicks();
   float current_time;
-  m_game_speed = STARTING_SPEED;
-  std::vector<Coordinates> occupied_fields;
 
   while(m_running)
   {
@@ -140,20 +161,47 @@ int Runner::run_app()
     ///SET GAME PACE
     m_game_speed = STARTING_SPEED - m_score_board.get_level()*20;
 
-    ///CLEAR + BACKGROUND
-    SDL_FillRect(m_screen, 0, SDL_MapRGB(m_screen->format, 0, 0, 0));
-    SDL_BlitSurface(m_background, 0, m_screen, 0);
-
     ///DRAW
-    //Object
-    draw_squares_to(m_fallobj.get_coordinates());
-    //Board
-    draw_squares_to(m_board.get_occupied_fields());
-    //Score
-    draw_score_board();
-
-    SDL_Flip(m_screen);
+    draw_all();
   }
-
   return 0;
+}
+
+int Runner::run()
+{
+  int ret_val = 0;
+  try
+  {
+    ret_val = run_app();
+  }
+  catch(std::exception& ex)
+  {
+    ///declare gameover + draw score !!!
+    SDL_Event event;
+    SDL_Rect  sign_dest;
+
+    m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
+    sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
+    sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
+    while(m_running)
+    {
+      if(SDL_PollEvent(&event))
+      {
+        analyze_keyboard_input(event);
+      }
+      if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
+
+      draw_all();
+
+      m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
+      SDL_BlitSurface(m_text_surface, 0, m_screen, &sign_dest);
+      SDL_Flip(m_screen);
+      SDL_Delay(300);
+    }
+  }
+  catch(...)
+  {
+    ///unknown exception
+  }
+  return ret_val;
 }
