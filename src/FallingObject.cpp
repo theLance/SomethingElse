@@ -12,6 +12,7 @@ std::vector<Coordinates> FallingObject::get_coordinates()
   }
   return coords;
 }
+
 void FallingObject::reset_object()
 {
   m_center_coord.x = GRID_WIDTH / 2;

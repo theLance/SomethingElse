@@ -27,12 +27,18 @@ int Runner::initialize()
 
   TTF_Init();
   m_font = TTF_OpenFont("ARIAL.TTF", 20);
+  if(!m_font)
+  {
+    std::cerr << "Unable to load font: " << SDL_GetError() << std::endl;
+    return 1;
+  }
 
   m_text_color = { 255, 255, 255 };
   m_text_background = { 0, 0, 0 };
 
-  m_score_dest = { 10, 10, 0, 0 };
-  m_level_dest = { 10, 40, 0, 0 };
+  m_score_dest = { 20, 20, 0, 0 };
+  m_level_dest = { 20, 50, 0, 0 };
+  m_scoreboard_dest = { 10, 10, 100, 70 };
 
   //BLACK IS TRANSPARENT
   SDL_SetColorKey(m_screen, SDL_SRCCOLORKEY, SDL_MapRGB(m_screen->format, 0, 0, 0));
@@ -99,14 +105,25 @@ void Runner::draw_score_board()
   std::stringstream ss;
   std::string str;
 
+  SDL_FillRect(m_screen, &m_scoreboard_dest, SDL_MapRGB(m_screen->format, 0, 0, 0));
+
   ss << m_score_board.get_score() << " " << m_score_board.get_level();
   ss >> str;
+  str = "Score: " + str;
 
   m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
                                          m_text_color, m_text_background);
+  std::cerr << m_text_surface->w << std::endl;
+  if(m_text_surface->w + 20 > m_scoreboard_dest.w)
+  {
+    m_scoreboard_dest.w = m_text_surface->w + 20;
+    draw_score_board();
+  }
+
   SDL_BlitSurface(m_text_surface, 0, m_screen, &m_score_dest);
 
   ss >> str;
+  str = "Level:  " + str;
   m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
                                          m_text_color, m_text_background);
   SDL_BlitSurface(m_text_surface, 0, m_screen, &m_level_dest);

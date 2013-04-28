@@ -56,6 +56,7 @@ private:
   SDL_Surface*  m_text_surface;
   SDL_Rect      m_score_dest;
   SDL_Rect      m_level_dest;
+  SDL_Rect      m_scoreboard_dest;
 
   Score         m_score_board;
 
