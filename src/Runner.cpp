@@ -5,7 +5,6 @@
 
 int Runner::initialize()
 {
-  std::cerr << "Initializing SDL" << std::endl;
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
   m_screen = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 0,
                                          SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -113,7 +112,6 @@ void Runner::draw_score_board()
 
   m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
                                          m_text_color, m_text_background);
-  std::cerr << m_text_surface->w << std::endl;
   if(m_text_surface->w + 20 > m_scoreboard_dest.w)
   {
     m_scoreboard_dest.w = m_text_surface->w + 20;
