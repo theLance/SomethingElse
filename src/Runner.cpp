@@ -75,7 +75,7 @@ void Runner::execute_keyboard_input()
 {
   if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
 
-  if(m_keys_pressed[SDLK_UP])    m_fallobj.rotate_object();
+  if(m_keys_pressed[SDLK_UP])    { m_fallobj.rotate_object(); m_keys_pressed[SDLK_UP] = false; }
   if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
   if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
@@ -182,10 +182,11 @@ int Runner::run_app()
     }
 
     ///SET GAME PACE
-    m_game_speed = STARTING_SPEED - m_score_board.get_level()*20;
+    m_game_speed = STARTING_SPEED - m_score_board.get_level()*25;
 
     ///DRAW
     draw_all();
+    SDL_Delay(10);
   }
   return 0;
 }

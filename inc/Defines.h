@@ -6,8 +6,8 @@
 #define WIDTH  800
 #define HEIGHT 600
 
-#define STARTING_SPEED 400
-#define INPUT_SPEED    120
+#define STARTING_SPEED 500
+#define INPUT_SPEED    100
 
 #define BASE_SCORE_PER_LINE 10
 
