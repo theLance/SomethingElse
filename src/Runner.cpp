@@ -198,34 +198,36 @@ int Runner::run()
   {
     ret_val = run_app();
   }
-  catch(std::exception& ex)
+  catch(GameOver& ex)
   {
-    ///declare gameover + draw score !!!
-    SDL_Event event;
-    SDL_Rect  sign_dest;
-
-    m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-    sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
-    sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
-    while(m_running)
-    {
-      if(SDL_PollEvent(&event))
-      {
-        analyze_keyboard_input(event);
-      }
-      if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
-
-      draw_all();
-
-      m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-      SDL_BlitSurface(m_text_surface, 0, m_screen, &sign_dest);
-      SDL_Flip(m_screen);
-      SDL_Delay(300);
-    }
   }
   catch(...)
   {
-    ///unknown exception
+    throw;
   }
+
+  ///declare gameover + draw score !!!
+  SDL_Event event;
+  SDL_Rect  sign_dest;
+
+  m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
+  sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
+  sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
+  while(m_running)
+  {
+    if(SDL_PollEvent(&event))
+    {
+      analyze_keyboard_input(event);
+    }
+    if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
+
+    draw_all();
+
+    m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
+    SDL_BlitSurface(m_text_surface, 0, m_screen, &sign_dest);
+    SDL_Flip(m_screen);
+    SDL_Delay(300);
+  }
+
   return ret_val;
 }
