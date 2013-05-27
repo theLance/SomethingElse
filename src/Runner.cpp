@@ -91,8 +91,6 @@ int Runner::run()
   {
     ///declare gameover + draw score
     SDL_Event event;
-
-    m_drawer.set_items_for_gameover();
     while(m_running)
     {
       if(SDL_PollEvent(&event))

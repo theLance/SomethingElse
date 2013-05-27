@@ -37,9 +37,7 @@ public:
 
   void draw_all();
 
-  void set_items_for_gameover();
   void draw_gameover();
-
 
 private:
   void calculate_block_position(const Coordinates& coord);

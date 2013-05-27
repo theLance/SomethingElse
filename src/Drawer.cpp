@@ -54,6 +54,9 @@ int Drawer::initialize()
     return 1;
   }
 
+  m_gameover_sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
+  m_gameover_sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
+
   return 0;
 }
 
@@ -119,13 +122,6 @@ void Drawer::draw_all()
   draw_score_board();
 
   SDL_Flip(m_screen);
-}
-
-void Drawer::set_items_for_gameover()
-{
-  m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-  m_gameover_sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
-  m_gameover_sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
 }
 
 void Drawer::draw_gameover()
