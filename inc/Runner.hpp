@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-#include "SDL/SDL_ttf.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #include "FallingObject.hpp"
 

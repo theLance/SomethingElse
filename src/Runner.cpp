@@ -203,7 +203,8 @@ int Runner::run()
   }
   catch(...)
   {
-    throw;
+    std::cerr << "\nUnexpected exception caught in Runner::run()" << std::endl;
+    return 1;
   }
 
   ///declare gameover + draw score !!!

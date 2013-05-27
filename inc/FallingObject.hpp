@@ -1,8 +1,6 @@
 #ifndef FALLINGOBJECT_HPP_INCLUDED
 #define FALLINGOBJECT_HPP_INCLUDED
 
-#include <SDL/SDL.h>
-
 #include "Board.hpp"
 
 
