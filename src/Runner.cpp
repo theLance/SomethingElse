@@ -1,64 +1,12 @@
 #include <Runner.hpp>
 
-#include <sstream>
-
 
 int Runner::initialize()
 {
-  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-  m_screen = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 0,
-                                         SDL_HWSURFACE | SDL_DOUBLEBUF);
-  if(!m_screen)
-  {
-    std::cerr << "Unable to load screen: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
-  m_game_area.x = m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
-  m_game_area.y = GRID_UNIT;
-  m_game_area.w = GRID_UNIT * GRID_WIDTH;
-  m_game_area.h = GRID_UNIT * GRID_HEIGHT;
-
-  m_game_area_rim.x = m_game_area.x - 1;
-  m_game_area_rim.y = m_game_area.y - 1;
-  m_game_area_rim.w = m_game_area.w + 2;
-  m_game_area_rim.h = m_game_area.h + 2;
-
-  TTF_Init();
-  m_font = TTF_OpenFont("ARIAL.TTF", 20);
-  if(!m_font)
-  {
-    std::cerr << "Unable to load font: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
-  m_text_color = { 255, 255, 255 };
-  m_text_background = { 0, 0, 0 };
-
-  m_score_dest = { 20, 20, 0, 0 };
-  m_level_dest = { 20, 50, 0, 0 };
-  m_scoreboard_dest = { 10, 10, 100, 70 };
-
-  //BLACK IS TRANSPARENT
-  SDL_SetColorKey(m_screen, SDL_SRCCOLORKEY, SDL_MapRGB(m_screen->format, 0, 0, 0));
-
-  m_background = SDL_LoadBMP("pix/background.bmp");
-  if(!m_background)
-  {
-    std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
-  m_square = SDL_LoadBMP("pix/square.bmp");
-  if(!m_square)
-  {
-    std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
+  int ret_val = m_drawer.initialize();
   m_fallobj.reset_object();
 
-  return 0;
+  return ret_val;
 }
 
 void Runner::analyze_keyboard_input(SDL_Event& event)
@@ -79,70 +27,6 @@ void Runner::execute_keyboard_input()
   if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
   if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
-}
-
-void Runner::calculate_block_position(const Coordinates& coord)
-{
-  m_objpos.x = coord.x * GRID_UNIT + m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
-  m_objpos.y = (coord.y + 1) * GRID_UNIT;
-}
-
-void Runner::draw_squares_to(const std::vector<Coordinates>& coords)
-{
-  for(auto coord : coords)
-  {
-    calculate_block_position(coord);
-    if(m_objpos.y > 0)
-    {
-      SDL_BlitSurface(m_square, 0, m_screen, &m_objpos);
-    }
-  }
-}
-
-void Runner::draw_score_board()
-{
-  std::stringstream ss;
-  std::string str;
-
-  SDL_FillRect(m_screen, &m_scoreboard_dest, SDL_MapRGB(m_screen->format, 0, 0, 0));
-
-  ss << m_score_board.get_score() << " " << m_score_board.get_level();
-  ss >> str;
-  str = "Score: " + str;
-
-  m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
-                                         m_text_color, m_text_background);
-  if(m_text_surface->w + 20 > m_scoreboard_dest.w)
-  {
-    m_scoreboard_dest.w = m_text_surface->w + 20;
-    draw_score_board();
-  }
-
-  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_score_dest);
-
-  ss >> str;
-  str = "Level:  " + str;
-  m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
-                                         m_text_color, m_text_background);
-  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_level_dest);
-}
-
-void Runner::draw_all()
-{
-  //BACKGROUND + CLEAR GAME AREA
-  SDL_BlitSurface(m_background, 0, m_screen, 0);
-  SDL_FillRect(m_screen, &m_game_area_rim, SDL_MapRGB(m_screen->format, 0, 0, 0));
-  SDL_BlitSurface(m_background, &m_game_area, m_screen, &m_game_area);
-
-  //DRAW
-  //Object
-  draw_squares_to(m_fallobj.get_coordinates());
-  //Board
-  draw_squares_to(m_board.get_occupied_fields());
-  //Score
-  draw_score_board();
-
-  SDL_Flip(m_screen);
 }
 
 int Runner::run_app()
@@ -185,7 +69,7 @@ int Runner::run_app()
     m_game_speed = STARTING_SPEED - m_score_board.get_level()*25;
 
     ///DRAW
-    draw_all();
+    m_drawer.draw_all();
     SDL_Delay(10);
   }
   return 0;
@@ -197,37 +81,36 @@ int Runner::run()
   try
   {
     ret_val = run_app();
+    if(ret_val)
+    {
+      return ret_val;
+    }
   }
   catch(GameOver& ex)
   {
+    ///declare gameover + draw score
+    SDL_Event event;
+
+    m_drawer.set_items_for_gameover();
+    while(m_running)
+    {
+      if(SDL_PollEvent(&event))
+      {
+        analyze_keyboard_input(event);
+      }
+      if(m_keys_pressed[SDLK_ESCAPE])
+      {
+        m_running = false;
+      }
+
+      m_drawer.draw_gameover();
+      SDL_Delay(300);
+    }
   }
   catch(...)
   {
     std::cerr << "\nUnexpected exception caught in Runner::run()" << std::endl;
     return 1;
-  }
-
-  ///declare gameover + draw score !!!
-  SDL_Event event;
-  SDL_Rect  sign_dest;
-
-  m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-  sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
-  sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
-  while(m_running)
-  {
-    if(SDL_PollEvent(&event))
-    {
-      analyze_keyboard_input(event);
-    }
-    if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
-
-    draw_all();
-
-    m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-    SDL_BlitSurface(m_text_surface, 0, m_screen, &sign_dest);
-    SDL_Flip(m_screen);
-    SDL_Delay(300);
   }
 
   return ret_val;
