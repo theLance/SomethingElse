@@ -15,14 +15,15 @@
 class Drawer
 {
 public:
-  Drawer(FallingObject& fallobj, Board& board, Score& scoreboard) : WINDOW_WIDTH(WIDTH), WINDOW_HEIGHT(HEIGHT)
-           , m_screen(0)
-           , m_square(0)
-           , m_text_surface(0)
-           , m_fallobj(fallobj)
-           , m_board(board)
-           , m_score_board(scoreboard)
-           {}
+  Drawer(FallingObject& fallobj, Board& board, Score& scoreboard) : WINDOW_WIDTH(WIDTH)
+                                                                  , WINDOW_HEIGHT(HEIGHT)
+                                                                  , m_screen(0)
+                                                                  , m_square(0)
+                                                                  , m_text_surface(0)
+                                                                  , m_fallobj(fallobj)
+                                                                  , m_board(board)
+                                                                  , m_score_board(scoreboard)
+                                                                  {}
   ~Drawer()
   {
     TTF_CloseFont(m_font);
@@ -63,7 +64,7 @@ private:
 
   SDL_Rect       m_objpos;
 
-  SDL_Rect       m_go_sign_dest;
+  SDL_Rect       m_gameover_sign_dest;
 
   FallingObject& m_fallobj;
   Board&         m_board;

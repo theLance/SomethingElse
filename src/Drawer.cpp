@@ -57,7 +57,6 @@ int Drawer::initialize()
   return 0;
 }
 
-
 void Drawer::calculate_block_position(const Coordinates& coord)
 {
   m_objpos.x = coord.x * GRID_UNIT + m_screen->w/2 - GRID_UNIT * (GRID_WIDTH/2);
@@ -125,14 +124,14 @@ void Drawer::draw_all()
 void Drawer::set_items_for_gameover()
 {
   m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-  m_go_sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
-  m_go_sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
+  m_gameover_sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
+  m_gameover_sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
 }
 
 void Drawer::draw_gameover()
 {
   draw_all();
   m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_go_sign_dest);
+  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_gameover_sign_dest);
   SDL_Flip(m_screen);
 }

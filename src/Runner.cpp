@@ -33,7 +33,7 @@ int Runner::run_app()
 {
   if(initialize())
   {
-    std::cerr << "\nError encountered! App shutting down." << std::endl;
+    std::cerr << "\nError encountered during initialization! Shutting down." << std::endl;
     return 1;
   }
 
@@ -72,6 +72,7 @@ int Runner::run_app()
     m_drawer.draw_all();
     SDL_Delay(10);
   }
+
   return 0;
 }
 
