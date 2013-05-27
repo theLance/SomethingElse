@@ -20,6 +20,7 @@ public:
                                                                   , m_screen(0)
                                                                   , m_square(0)
                                                                   , m_text_surface(0)
+                                                                  , m_gameover_text(0)
                                                                   , m_fallobj(fallobj)
                                                                   , m_board(board)
                                                                   , m_score_board(scoreboard)
@@ -28,6 +29,7 @@ public:
   {
     TTF_CloseFont(m_font);
     SDL_FreeSurface(m_text_surface);
+    SDL_FreeSurface(m_gameover_text);
     SDL_FreeSurface(m_background);
     SDL_FreeSurface(m_square);
     SDL_Quit();
@@ -62,6 +64,7 @@ private:
 
   SDL_Rect       m_objpos;
 
+  SDL_Surface*   m_gameover_text;
   SDL_Rect       m_gameover_sign_dest;
 
   FallingObject& m_fallobj;

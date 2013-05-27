@@ -54,8 +54,9 @@ int Drawer::initialize()
     return 1;
   }
 
-  m_gameover_sign_dest.x = m_screen->w / 2 - m_text_surface->w / 2;
-  m_gameover_sign_dest.y = m_screen->h / 2 - m_text_surface->h / 2;
+  m_gameover_text = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
+  m_gameover_sign_dest.x = m_screen->w / 2 - m_gameover_text->w / 2;
+  m_gameover_sign_dest.y = m_screen->h / 2 - m_gameover_text->h / 2;
 
   return 0;
 }
@@ -127,7 +128,6 @@ void Drawer::draw_all()
 void Drawer::draw_gameover()
 {
   draw_all();
-  m_text_surface = TTF_RenderText_Shaded(m_font, "GAME OVER", m_text_color, m_text_background);
-  SDL_BlitSurface(m_text_surface, 0, m_screen, &m_gameover_sign_dest);
+  SDL_BlitSurface(m_gameover_text, 0, m_screen, &m_gameover_sign_dest);
   SDL_Flip(m_screen);
 }
