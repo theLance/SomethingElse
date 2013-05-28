@@ -8,7 +8,7 @@
 class Runner
 {
 public:
-  Runner() : m_keys_pressed()
+  Runner() : m_keys_pressed({false})
            , m_running(true)
            , m_game_speed(STARTING_SPEED)
            , m_fallobj(m_board)

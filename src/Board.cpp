@@ -11,12 +11,12 @@ void Board::register_squares_to_board(const std::vector<Coordinates>& coords)
   check_for_completed_lines();
 }
 
-unsigned Board::get_cell_value(const Coordinates& coord)
+unsigned Board::get_cell_value(const Coordinates& coord) const
 {
   return m_board_array[coord.y][coord.x];
 }
 
-std::vector<Coordinates> Board::get_occupied_fields()
+std::vector<Coordinates> Board::get_occupied_fields() const
 {
   std::vector<Coordinates> coords;
   for(unsigned x = 0; x < m_board_array.size(); ++x)
@@ -44,7 +44,7 @@ void Board::rearrange_rows()
 
   while(++row != m_board_array.end())
   {
-    if(std::count(row->begin(), row->end(), 1) == 0)
+    if(0 == std::count(row->begin(), row->end(), 1))
     {
       auto temp_row = row;
       while(temp_row != first_unempty_line)

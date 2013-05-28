@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-std::vector<Coordinates> FallingObject::get_coordinates()
+std::vector<Coordinates> FallingObject::get_coordinates() const
 {
   std::vector<Coordinates> coords;
   for(auto coord : m_coordinates)
@@ -27,7 +27,7 @@ void FallingObject::reset_object()
   }
 }
 
-bool FallingObject::check_if_move_possible(const Coordinates& dest_coord)
+bool FallingObject::check_if_move_possible(const Coordinates& dest_coord) const
 {
   for(auto coord : m_coordinates)
   {

@@ -8,7 +8,7 @@ class FallingObject
 {
 public:
   FallingObject(Board& board) : m_board(board) {}
-  std::vector<Coordinates> get_coordinates();
+  std::vector<Coordinates> get_coordinates() const;
   void reset_object();
 
   void rotate_object();
@@ -17,7 +17,7 @@ public:
   void move_obj_right();
 
 private:
-  bool check_if_move_possible(const Coordinates& dest_coord);
+  bool check_if_move_possible(const Coordinates& dest_coord) const;
   std::vector<Coordinates> rotate();
 
   Coordinates               m_center_coord;
