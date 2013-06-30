@@ -13,14 +13,14 @@ public:
            , m_game_speed(STARTING_SPEED)
            , m_fallobj(m_board)
            , m_board(m_score_board)
-           , m_drawer(m_fallobj, m_board, m_score_board)
+           , m_drawer()
            {}
 
   int run();
 
 private:
   int initialize();
-  int run_app();
+  int play();
 
   void analyze_keyboard_input(SDL_Event& event);
   void execute_keyboard_input();

@@ -1,5 +1,9 @@
 #include <Drawer.hpp>
 
+#include <iostream>
+
+#include <boost/lexical_cast.hpp>
+
 
 int Drawer::initialize()
 {
@@ -79,35 +83,34 @@ void Drawer::draw_squares_to(const std::vector<Coordinates>& coords)
   }
 }
 
-void Drawer::draw_score_board()
+void Drawer::draw_score_board(const unsigned score, const unsigned level)
 {
-  std::stringstream ss;
   std::string str;
 
   SDL_FillRect(m_screen, &m_scoreboard_dest, SDL_MapRGB(m_screen->format, 0, 0, 0));
 
-  ss << m_score_board.get_score() << " " << m_score_board.get_level();
-  ss >> str;
-  str = "Score: " + str;
+  str = "Score: " + boost::lexical_cast<std::string>(score);
 
   m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
                                          m_text_color, m_text_background);
   if(m_text_surface->w + 20 > m_scoreboard_dest.w)
   {
     m_scoreboard_dest.w = m_text_surface->w + 20;
-    draw_score_board();
+    draw_score_board(score, level);
   }
 
   SDL_BlitSurface(m_text_surface, 0, m_screen, &m_score_dest);
 
-  ss >> str;
-  str = "Level:  " + str;
+  str = "Level:  " + boost::lexical_cast<std::string>(level);
   m_text_surface = TTF_RenderText_Shaded(m_font, str.c_str(),
                                          m_text_color, m_text_background);
   SDL_BlitSurface(m_text_surface, 0, m_screen, &m_level_dest);
 }
 
-void Drawer::draw_all()
+void Drawer::draw_all(const std::vector<Coordinates>& object_coords,
+                      const std::vector<Coordinates>& board_coords,
+                      const unsigned score,
+                      const unsigned level)
 {
   //BACKGROUND + CLEAR GAME AREA
   SDL_BlitSurface(m_background, 0, m_screen, 0);
@@ -116,18 +119,21 @@ void Drawer::draw_all()
 
   //DRAW
   //Object
-  draw_squares_to(m_fallobj.get_coordinates());
+  draw_squares_to(object_coords);
   //Board
-  draw_squares_to(m_board.get_occupied_fields());
+  draw_squares_to(board_coords);
   //Score
-  draw_score_board();
+  draw_score_board(score, level);
 
   SDL_Flip(m_screen);
 }
 
-void Drawer::draw_gameover()
+void Drawer::draw_gameover(const std::vector<Coordinates>& object_coords,
+                           const std::vector<Coordinates>& board_coords,
+                           const unsigned score,
+                           const unsigned level)
 {
-  draw_all();
+  draw_all(object_coords, board_coords, score, level);
   SDL_BlitSurface(m_gameover_text, 0, m_screen, &m_gameover_sign_dest);
   SDL_Flip(m_screen);
 }

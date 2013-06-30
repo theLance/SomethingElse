@@ -1,5 +1,7 @@
 #include <Runner.hpp>
 
+#include <iostream>
+
 
 int Runner::initialize()
 {
@@ -29,14 +31,8 @@ void Runner::execute_keyboard_input()
   if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
 }
 
-int Runner::run_app()
+int Runner::play()
 {
-  if(initialize())
-  {
-    std::cerr << "\nError encountered during initialization! Shutting down." << std::endl;
-    return 1;
-  }
-
   SDL_Event event;
   float last_fall_tick = SDL_GetTicks();
   float last_input_tick = SDL_GetTicks();
@@ -69,7 +65,8 @@ int Runner::run_app()
     m_game_speed = STARTING_SPEED - m_score_board.get_level()*25;
 
     ///DRAW
-    m_drawer.draw_all();
+    m_drawer.draw_all(m_fallobj.get_coordinates(), m_board.get_occupied_fields(),
+                      m_score_board.get_score(), m_score_board.get_level());
     SDL_Delay(10);
   }
 
@@ -79,9 +76,15 @@ int Runner::run_app()
 int Runner::run()
 {
   int ret_val = 0;
+  if(initialize())
+  {
+    std::cerr << "\nError encountered during graphics initialization! Shutting down." << std::endl;
+    return 1;
+  }
+
   try
   {
-    ret_val = run_app();
+    ret_val = play();
     if(ret_val)
     {
       return ret_val;
@@ -91,6 +94,8 @@ int Runner::run()
   {
     ///declare gameover + draw score
     SDL_Event event;
+    const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());
+    const std::vector<Coordinates> board_coords(m_board.get_occupied_fields());
     while(m_running)
     {
       if(SDL_PollEvent(&event))
@@ -102,7 +107,9 @@ int Runner::run()
         m_running = false;
       }
 
-      m_drawer.draw_gameover();
+      m_drawer.draw_gameover(obj_coords, board_coords,
+                             m_score_board.get_score(), m_score_board.get_level());
+
       SDL_Delay(300);
     }
   }

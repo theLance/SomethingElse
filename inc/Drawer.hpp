@@ -4,27 +4,20 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
-#include <iostream>
 #include <vector>
-#include <sstream>
 
 #include "Defines.h"
-#include "FallingObject.hpp"
-
 
 class Drawer
 {
 public:
-  Drawer(FallingObject& fallobj, Board& board, Score& scoreboard) : WINDOW_WIDTH(WIDTH)
-                                                                  , WINDOW_HEIGHT(HEIGHT)
-                                                                  , m_screen(0)
-                                                                  , m_square(0)
-                                                                  , m_text_surface(0)
-                                                                  , m_gameover_text(0)
-                                                                  , m_fallobj(fallobj)
-                                                                  , m_board(board)
-                                                                  , m_score_board(scoreboard)
-                                                                  {}
+  Drawer() : WINDOW_WIDTH(WIDTH)
+           , WINDOW_HEIGHT(HEIGHT)
+           , m_screen(0)
+           , m_square(0)
+           , m_text_surface(0)
+           , m_gameover_text(0)
+          {}
   ~Drawer()
   {
     TTF_CloseFont(m_font);
@@ -37,14 +30,20 @@ public:
 
   int initialize();
 
-  void draw_all();
+  void draw_all(const std::vector<Coordinates>& object_coords,
+                const std::vector<Coordinates>& board_coords,
+                const unsigned score,
+                const unsigned level);
 
-  void draw_gameover();
+  void draw_gameover(const std::vector<Coordinates>& object_coords,
+                     const std::vector<Coordinates>& board_coords,
+                     const unsigned score,
+                     const unsigned level);
 
 private:
   void calculate_block_position(const Coordinates& coord);
   void draw_squares_to(const std::vector<Coordinates>& coords);
-  void draw_score_board();
+  void draw_score_board(const unsigned score, const unsigned level);
 
   const int      WINDOW_WIDTH;
   const int      WINDOW_HEIGHT;
@@ -66,10 +65,6 @@ private:
 
   SDL_Surface*   m_gameover_text;
   SDL_Rect       m_gameover_sign_dest;
-
-  FallingObject& m_fallobj;
-  Board&         m_board;
-  Score&         m_score_board;
 };
 
 
