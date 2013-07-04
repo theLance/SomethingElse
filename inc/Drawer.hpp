@@ -32,18 +32,18 @@ public:
 
   void draw_all(const std::vector<Coordinates>& object_coords,
                 const std::vector<Coordinates>& board_coords,
-                const unsigned score,
+                const unsigned long score,
                 const unsigned level);
 
   void draw_gameover(const std::vector<Coordinates>& object_coords,
                      const std::vector<Coordinates>& board_coords,
-                     const unsigned score,
+                     const unsigned long score,
                      const unsigned level);
 
 private:
   void calculate_block_position(const Coordinates& coord);
   void draw_squares_to(const std::vector<Coordinates>& coords);
-  void draw_score_board(const unsigned score, const unsigned level);
+  void draw_score_board(const unsigned long score, const unsigned level);
 
   const int      WINDOW_WIDTH;
   const int      WINDOW_HEIGHT;

@@ -83,7 +83,7 @@ void Drawer::draw_squares_to(const std::vector<Coordinates>& coords)
   }
 }
 
-void Drawer::draw_score_board(const unsigned score, const unsigned level)
+void Drawer::draw_score_board(const unsigned long score, const unsigned level)
 {
   std::string str;
 
@@ -109,7 +109,7 @@ void Drawer::draw_score_board(const unsigned score, const unsigned level)
 
 void Drawer::draw_all(const std::vector<Coordinates>& object_coords,
                       const std::vector<Coordinates>& board_coords,
-                      const unsigned score,
+                      const unsigned long score,
                       const unsigned level)
 {
   //BACKGROUND + CLEAR GAME AREA
@@ -130,7 +130,7 @@ void Drawer::draw_all(const std::vector<Coordinates>& object_coords,
 
 void Drawer::draw_gameover(const std::vector<Coordinates>& object_coords,
                            const std::vector<Coordinates>& board_coords,
-                           const unsigned score,
+                           const unsigned long score,
                            const unsigned level)
 {
   draw_all(object_coords, board_coords, score, level);
