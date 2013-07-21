@@ -1,6 +1,8 @@
 #ifndef RUNNER_HPP_INCLUDED
 #define RUNNER_HPP_INCLUDED
 
+#include <iostream>
+
 #include "Drawer.hpp"
 #include "FallingObject.hpp"
 
@@ -8,13 +10,19 @@
 class Runner
 {
 public:
-  Runner() : m_keys_pressed({false})
-           , m_running(true)
-           , m_game_speed(STARTING_SPEED)
-           , m_fallobj(m_board)
-           , m_board(m_score_board)
-           , m_drawer()
-           {}
+  Runner()  : m_keys_pressed({false})
+            , m_running(true)
+            , m_game_speed(STARTING_SPEED)
+            , m_fallobj(m_board)
+            , m_board(m_score_board)
+            , m_drawer()
+            {
+                if(initialize())
+                {
+                  std::cerr << "\nError encountered during graphics initialization! Shutting down." << std::endl;
+                  throw 1;
+                }
+            }
 
   int run();
 

@@ -1,7 +1,5 @@
 #include <Runner.hpp>
 
-#include <iostream>
-
 
 int Runner::initialize()
 {
@@ -76,11 +74,6 @@ int Runner::play()
 int Runner::run()
 {
   int ret_val = 0;
-  if(initialize())
-  {
-    std::cerr << "\nError encountered during graphics initialization! Shutting down." << std::endl;
-    return 1;
-  }
 
   try
   {
