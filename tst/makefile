@@ -2,11 +2,11 @@ INCLUDE= -I../inc
 
 SRC= ../src/
 
-BASIC_ALL_OBJS := FileHandler.o
-BASIC_ALL_SRCS := $(SRC)$(BASIC_ALL_OBJS:.o=.cpp)
+BASIC_ALL_OBJS := FileHandler.o Encrypter.o
+BASIC_ALL_SRCS := $(BASIC_ALL_OBJS:%.o=$(SRC)%.cpp)
 
-BASIC_ALL_TST_HPP  := testFileHandler.hpp
-BASIC_ALL_TST_CPP  := $(BASIC_ALL_TST_HPP:.hpp=.cpp)
+BASIC_ALL_TST_HPP  := testFileHandler.hpp testEncrypter.hpp
+BASIC_ALL_TST_CPP  := $(BASIC_ALL_TST_HPP:%.hpp=%.cpp)
 
 BASIC_RUNNER_EXEC := run_tests.exe
 BASIC_RUNNER_OBJ  := $(BASIC_RUNNER_EXEC:.exe=.o)
@@ -34,6 +34,8 @@ $(BASIC_ALL_OBJS): $(BASIC_ALL_SRCS)
 
 basic: $(BASIC_RUNNER_EXEC)
 	$(BASIC_RUNNER_EXEC)
+
+.PHONY: clean
 
 clean:
 	del *.exe *.cpp *.o
