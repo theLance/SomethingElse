@@ -30,6 +30,7 @@ void FileHandler::updateBuffer(const std::string& buffer)
   m_file.close();
   m_file.open(m_filename.c_str(), std::fstream::out | std::fstream::trunc);
   m_file << buffer;
+  m_file.flush();
 }
 
 

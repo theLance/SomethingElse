@@ -1,7 +1,5 @@
 #include <cxxtest/TestSuite.h>
 
-#define private public
-
 #include <boost/scoped_ptr.hpp>
 
 #include <FileHandler.hpp>
@@ -12,32 +10,52 @@
 class EncrypterTestSuite : public CxxTest::TestSuite
 {
 public:
-  boost::scoped_ptr<FileHandler> m_filehandler;
-
   const std::string m_testfile;
   const std::string m_testtext;
   const std::string m_testcontents;
 
   EncrypterTestSuite() : m_testfile("test.txt")
-                       , m_testtext("TEST 10")    //UPDATE THIS ONCE ALGO IS DONE
-                       , m_testcontents(m_testtext + '\n' + m_testtext)
+                       , m_testtext(std::string("TEST") + EncrypterAlgorithm::WORD_SEPARATOR + "10")
+                       , m_testcontents(m_testtext + EncrypterAlgorithm::WORD_SEPARATOR +
+                                        m_testtext + EncrypterAlgorithm::WORD_SEPARATOR)
                        {}
-
-  void setUp()
-  {
-    m_filehandler.reset(new FileHandler(m_testfile));
-    m_filehandler->updateBuffer(m_testcontents);
-  }
 
   void print_banner(const std::string& testcase)
   {
     banner("Encrypter - " + testcase);
   }
 
-  void testInitialization()
+  void testLameEncrypterAlgorithm()
   {
-    print_banner("std::string ctor");
-    Encrypter enc_str(m_testfile);
-    TS_ASSERT_DIFFERS(static_cast<FileHandler*>(NULL) ,enc_str.m_file.get());
+    const std::string bannerbase("LameEncrypterAlgorithm::");
+    print_banner(bannerbase + "encrypt");
+    LameEncrypterAlgorithm lameAlgo;
+    const std::string encrypted(lameAlgo.encrypt(m_testcontents));
+    TS_ASSERT_DIFFERS(m_testcontents, encrypted);
+    print_banner(bannerbase + "decrypt");
+    TS_ASSERT_EQUALS(m_testcontents, lameAlgo.decrypt(encrypted));
+  }
+
+  void testEncrypterEncrypt()
+  {
+    print_banner("decrypt");
+
+    FileHandler filehandler(m_testfile);
+    LameEncrypterAlgorithm lameAlgo;
+    filehandler.updateBuffer(lameAlgo.encrypt(m_testcontents));
+
+    Encrypter encrypter(m_testfile);
+    TS_ASSERT_EQUALS(m_testcontents, encrypter.decrypt());
+  }
+
+  void testEncrypterDecrypt()
+  {
+    print_banner("encrypt");
+
+    Encrypter encrypter(m_testfile);
+    encrypter.encrypt(m_testcontents);
+
+    FileHandler filehandler(m_testfile);
+    TS_ASSERT_DIFFERS(m_testcontents, filehandler.getBuffer());
   }
 };

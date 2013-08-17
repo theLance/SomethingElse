@@ -1,12 +1,11 @@
 #ifndef ENCRYPTER_HPP_INCLUDED
 #define ENCRYPTER_HPP_INCLUDED
 
-#include <vector>
+#include <cstdio>
 
 #include <boost/scoped_ptr.hpp>
 
 
-template<typename T> class vector;
 class FileHandler;
 
 
@@ -16,8 +15,7 @@ public:
   virtual const std::string encrypt(const std::string& input) const = 0;
   virtual const std::string decrypt(const std::string& input) const = 0;
 
-  static const char LINE_SEPARATOR;
-  static const char WORD_SEPARATOR;
+  static const char WORD_SEPARATOR = EOF;
 };
 
 
@@ -42,12 +40,7 @@ public:
   virtual const std::string decrypt(const std::string& input) const;
 
 private:
-  const std::vector<std::string> breakIntoLines(const std::string& input) const;
-
-  /// En-/decrypts line consisting of a string, a word separator, a number and a line separator.
-  const std::string encryptDecryptLine(const std::string& line, const Operation operation) const;
-
-  /// En-/decrypts more a string consisting of more lines (calls encryptDecryptLine on them).
+  /// En-/decrypts input, consisting of string and number pairs.
   const std::string encryptDecrypt(const std::string& lines, const Operation operation) const;
 
   /// Encrypt character stream to hex values of characters and return result as std::string.
@@ -80,11 +73,8 @@ public:
   const std::string decrypt() const;
 
 private:
-  /// The file containing the encrypted data.
-  boost::scoped_ptr<FileHandler>        m_file;
-
-  /// The algorithm used for en-/decrypting.
-  boost::scoped_ptr<EncrypterAlgorithm> m_algorithm;
+  FileHandler                           m_file;       ///< The file containing the encrypted data.
+  boost::scoped_ptr<EncrypterAlgorithm> m_algorithm;  ///< The algorithm used for en-/decrypting.
 };
 
 #endif // ENCRYPTER_HPP_INCLUDED
