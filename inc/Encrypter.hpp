@@ -1,19 +1,11 @@
 #ifndef ENCRYPTER_HPP_INCLUDED
 #define ENCRYPTER_HPP_INCLUDED
 
-<<<<<<< HEAD
 #include <cstdio>
-=======
-#include <vector>
->>>>>>> 46cca45c18bb5d360cd36def2d6e341d563d9a40
 
 #include <boost/scoped_ptr.hpp>
 
 
-<<<<<<< HEAD
-=======
-template<typename T> class vector;
->>>>>>> 46cca45c18bb5d360cd36def2d6e341d563d9a40
 class FileHandler;
 
 
@@ -23,12 +15,7 @@ public:
   virtual const std::string encrypt(const std::string& input) const = 0;
   virtual const std::string decrypt(const std::string& input) const = 0;
 
-<<<<<<< HEAD
   static const char WORD_SEPARATOR = EOF;
-=======
-  static const char LINE_SEPARATOR;
-  static const char WORD_SEPARATOR;
->>>>>>> 46cca45c18bb5d360cd36def2d6e341d563d9a40
 };
 
 
@@ -53,16 +40,7 @@ public:
   virtual const std::string decrypt(const std::string& input) const;
 
 private:
-<<<<<<< HEAD
   /// En-/decrypts input, consisting of string and number pairs.
-=======
-  const std::vector<std::string> breakIntoLines(const std::string& input) const;
-
-  /// En-/decrypts line consisting of a string, a word separator, a number and a line separator.
-  const std::string encryptDecryptLine(const std::string& line, const Operation operation) const;
-
-  /// En-/decrypts more a string consisting of more lines (calls encryptDecryptLine on them).
->>>>>>> 46cca45c18bb5d360cd36def2d6e341d563d9a40
   const std::string encryptDecrypt(const std::string& lines, const Operation operation) const;
 
   /// Encrypt character stream to hex values of characters and return result as std::string.
@@ -95,16 +73,8 @@ public:
   const std::string decrypt() const;
 
 private:
-<<<<<<< HEAD
   FileHandler                           m_file;       ///< The file containing the encrypted data.
   boost::scoped_ptr<EncrypterAlgorithm> m_algorithm;  ///< The algorithm used for en-/decrypting.
-=======
-  /// The file containing the encrypted data.
-  boost::scoped_ptr<FileHandler>        m_file;
-
-  /// The algorithm used for en-/decrypting.
-  boost::scoped_ptr<EncrypterAlgorithm> m_algorithm;
->>>>>>> 46cca45c18bb5d360cd36def2d6e341d563d9a40
 };
 
 #endif // ENCRYPTER_HPP_INCLUDED
