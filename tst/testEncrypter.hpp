@@ -10,16 +10,6 @@
 class EncrypterTestSuite : public CxxTest::TestSuite
 {
 public:
-  const std::string m_testfile;
-  const std::string m_testtext;
-  const std::string m_testcontents;
-
-  EncrypterTestSuite() : m_testfile("test.txt")
-                       , m_testtext(std::string("TEST") + EncrypterAlgorithm::WORD_SEPARATOR + "10")
-                       , m_testcontents(m_testtext + EncrypterAlgorithm::WORD_SEPARATOR +
-                                        m_testtext + EncrypterAlgorithm::WORD_SEPARATOR)
-                       {}
-
   void print_banner(const std::string& testcase)
   {
     banner("Encrypter - " + testcase);
@@ -29,33 +19,35 @@ public:
   {
     const std::string bannerbase("LameEncrypterAlgorithm::");
     print_banner(bannerbase + "encrypt");
+
     LameEncrypterAlgorithm lameAlgo;
-    const std::string encrypted(lameAlgo.encrypt(m_testcontents));
-    TS_ASSERT_DIFFERS(m_testcontents, encrypted);
+    const std::string encrypted(lameAlgo.encrypt(TestConsts::TEST_CONTENTS));
+    TS_ASSERT_DIFFERS(TestConsts::TEST_CONTENTS, encrypted);
+
     print_banner(bannerbase + "decrypt");
-    TS_ASSERT_EQUALS(m_testcontents, lameAlgo.decrypt(encrypted));
+    TS_ASSERT_EQUALS(TestConsts::TEST_CONTENTS, lameAlgo.decrypt(encrypted));
   }
 
   void testEncrypterEncrypt()
   {
     print_banner("decrypt");
 
-    FileHandler filehandler(m_testfile);
-    LameEncrypterAlgorithm lameAlgo;
-    filehandler.updateBuffer(lameAlgo.encrypt(m_testcontents));
+    createTestFile(TestConsts::ENCRYPT_WITH_LAME_ALGO);
 
-    Encrypter encrypter(m_testfile);
-    TS_ASSERT_EQUALS(m_testcontents, encrypter.decrypt());
+    Encrypter encrypter(TestConsts::TESTFILE);
+    TS_ASSERT_EQUALS(TestConsts::TEST_CONTENTS, encrypter.decrypt());
   }
 
   void testEncrypterDecrypt()
   {
     print_banner("encrypt");
 
-    Encrypter encrypter(m_testfile);
-    encrypter.encrypt(m_testcontents);
+    createTestFile(TestConsts::UNENCRYPTED);
 
-    FileHandler filehandler(m_testfile);
-    TS_ASSERT_DIFFERS(m_testcontents, filehandler.getBuffer());
+    Encrypter encrypter(TestConsts::TESTFILE);
+    encrypter.encrypt(TestConsts::TEST_CONTENTS);
+
+    FileHandler filehandler(TestConsts::TESTFILE);
+    TS_ASSERT_DIFFERS(TestConsts::TEST_CONTENTS, filehandler.getBuffer());
   }
 };
