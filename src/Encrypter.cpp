@@ -89,6 +89,7 @@ const std::string LameEncrypterAlgorithm::encryptDecrypt(const std::string& inpu
 
     word_end++;
     word_begin = word_end;
+    counter++;
   }
 
   return output;
@@ -112,6 +113,10 @@ Encrypter::Encrypter(const std::string& filename)
   m_file.reset(new FileHandler(filename));
   // replace this to use another algorithm //
   m_algorithm.reset(new LameEncrypterAlgorithm);
+}
+
+Encrypter::~Encrypter()
+{
 }
 
 void Encrypter::encrypt(const std::string& input)
