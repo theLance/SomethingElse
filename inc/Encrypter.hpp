@@ -65,6 +65,7 @@ class Encrypter
 {
 public:
   Encrypter(const std::string& filename);
+  ~Encrypter();
 
   /// Write back to file, encrypted.
   void encrypt(const std::string& input);
@@ -73,7 +74,7 @@ public:
   const std::string decrypt() const;
 
 private:
-  FileHandler                           m_file;       ///< The file containing the encrypted data.
+  boost::scoped_ptr<FileHandler>        m_file;       ///< The file containing the encrypted data.
   boost::scoped_ptr<EncrypterAlgorithm> m_algorithm;  ///< The algorithm used for en-/decrypting.
 };
 
