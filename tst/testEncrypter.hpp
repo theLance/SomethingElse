@@ -5,6 +5,7 @@
 #include <FileHandler.hpp>
 #include <Encrypter.hpp>
 
+#include "CommonConstants.hpp"
 #include "tst_tool/banner.hpp"
 
 class EncrypterTestSuite : public CxxTest::TestSuite
