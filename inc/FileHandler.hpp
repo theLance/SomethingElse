@@ -30,6 +30,8 @@ public:
   void updateBuffer(const std::string& buffer);
 
 private:
+  void openFile();
+
   std::string  m_filename;
   std::fstream m_file;
 };
