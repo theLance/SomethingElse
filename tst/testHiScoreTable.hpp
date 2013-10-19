@@ -125,5 +125,16 @@ public:
     scoreInsertionTester("New 3rd score", "newThirdPlaceGuy", TestConsts::SCORE3 + 1, 2);
   }
 
-  /// ALSO TEST IF ADDED: - LOWER SCORE THAN #10
+  void testAddScoreThatIsOffTheTable()
+  {
+    const std::string bannerbase("Add too low score");
+    initializeTest(bannerbase);
+
+    print_banner(bannerbase + " - size still OK");
+    insertAndVerify("Loser", TestConsts::SCORE10, HISCORE_TABLE_MAX_SIZE);
+
+    print_banner(bannerbase + " - never made it");
+    HiScoreMapIterator it(m_hiScoreTable->m_score_table.begin());
+    assertTestFileContentsInOrder(it, m_hiScoreTable->m_score_table.end());
+  }
 };
