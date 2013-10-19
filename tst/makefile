@@ -2,10 +2,10 @@ INCLUDE= -I../inc
 
 SRC= ../src/
 
-BASIC_ALL_OBJS := FileHandler.o Encrypter.o
+BASIC_ALL_OBJS := FileHandler.o Encrypter.o HiScoreTable.o
 BASIC_ALL_SRCS := $(BASIC_ALL_OBJS:%.o=$(SRC)%.cpp)
 
-BASIC_ALL_TST_HPP  := testFileHandler.hpp testEncrypter.hpp
+BASIC_ALL_TST_HPP  := $(BASIC_ALL_OBJS:%.o=test%.hpp)
 BASIC_ALL_TST_CPP  := $(BASIC_ALL_TST_HPP:%.hpp=%.cpp)
 
 BASIC_RUNNER_EXEC := run_tests.exe

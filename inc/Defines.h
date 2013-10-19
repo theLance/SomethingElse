@@ -17,6 +17,8 @@
 /** Squares are 30*30p **/
 /** Board is 10*18 squares, which falls 2 short of standard, but whacchagonnado **/
 
+const std::size_t HISCORE_TABLE_MAX_SIZE = 10;
+
 class GameOver {  };
 
 struct Coordinates
