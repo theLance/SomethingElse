@@ -5,8 +5,7 @@
 
 void Board::reset()
 {
-  m_board_array = std::vector<std::vector<unsigned>>(GRID_HEIGHT,
-                                                     std::vector<unsigned>(GRID_WIDTH, 0));
+  m_board_array.assign(GRID_HEIGHT, std::vector<unsigned>(GRID_WIDTH, 0));
 }
 
 void Board::register_squares_to_board(const std::vector<Coordinates>& coords)

@@ -3,6 +3,11 @@
 #include <SDL/SDL.h>
 
 
+void Input::reset()
+{
+  keys_pressed.assign(NUMBER_OF_KEYS, 0);
+}
+
 void Input::analyze_keyboard_input(SDL_Event& event)
 {
   switch (event.type)

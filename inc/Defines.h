@@ -4,6 +4,8 @@
 #include <exception>
 #include <string>
 
+const int NUMBER_OF_KEYS = 323;
+
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 

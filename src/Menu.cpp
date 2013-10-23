@@ -54,6 +54,8 @@ void Menu::execute_keyboard_input()
 
 Menu::Option Menu::run()
 {
+  m_input.reset();
+
   SDL_Event event;
 
   m_not_chosen_yet = true;

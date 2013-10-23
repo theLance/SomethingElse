@@ -23,6 +23,7 @@ void Runner::reset_parameters()
 
   m_board.reset();
   m_score_board.reset();
+  m_input.reset();
   m_fallobj.reset_object();
 }
 
