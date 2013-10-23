@@ -23,6 +23,8 @@ const std::size_t HISCORE_TABLE_MAX_SIZE = 10;
 const std::string SQUARE_IMG("pix/square.bmp");
 const std::string BACKGROUND_IMG("pix/background.bmp");
 
+const std::string TITLE("AWESOME TITLE");
+
 class GameOver {  };
 
 struct Coordinates

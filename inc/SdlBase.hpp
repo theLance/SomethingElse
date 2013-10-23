@@ -10,6 +10,7 @@
 namespace SdlExt
 {
 const SDL_Color WHITE = { 255, 255, 255 };
+const SDL_Color GREY = { 120, 120, 120 };
 const SDL_Color BLACK = { 0, 0, 0 };
 
 class SdlBase

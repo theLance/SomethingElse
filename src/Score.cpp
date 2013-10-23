@@ -3,6 +3,12 @@
 #include <Defines.h>
 
 
+void Score::reset()
+{
+  m_score = 0;
+  m_level = 1;
+}
+
 void Score::update_score(const unsigned no_of_lines)
 {
   //base

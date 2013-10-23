@@ -17,6 +17,8 @@ public:
   unsigned get_cell_value(const Coordinates& coord) const;
   std::vector<Coordinates> get_occupied_fields() const;
 
+  void reset();
+
 private:
   void check_for_completed_lines();
   void rearrange_rows();

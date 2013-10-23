@@ -1,19 +1,40 @@
 #include <Runner.hpp>
 
 
-int Runner::initialize()
+Runner::Runner() : m_running(true)
+                 , m_paused(false)
+                 , m_game_speed(STARTING_SPEED)
+                 , m_fallobj(m_board)
+                 , m_board(m_score_board)
 {
-  int ret_val = m_drawer.initialize();
-  m_fallobj.reset_object();
+  if(m_drawer.initialize())
+  {
+    std::cerr << "\nError encountered during graphics initialization! Shutting down.\n"
+              << std::endl;
+    throw 1;
+  }
+}
 
-  return ret_val;
+void Runner::reset_parameters()
+{
+  m_running = true;
+  m_paused = false;
+  m_game_speed = STARTING_SPEED;
+
+  m_board.reset();
+  m_score_board.reset();
+  m_fallobj.reset_object();
 }
 
 void Runner::execute_keyboard_input()
 {
-  if(m_input.keys_pressed[SDLK_ESCAPE]){ m_running = false; }
-  if(m_input.keys_pressed[SDLK_p])     { m_paused = !m_paused; }
+  if(m_input.keys_pressed[SDLK_ESCAPE])
+  {
+    m_input.keys_pressed[SDLK_ESCAPE] = false;
+    m_running = false;
+  }
 
+  if(m_input.keys_pressed[SDLK_p]) { m_paused = !m_paused; }
   if(m_paused)
   {
     return;
@@ -31,6 +52,8 @@ void Runner::execute_keyboard_input()
 
 int Runner::play()
 {
+  reset_parameters();
+
   SDL_Event event;
   float last_fall_tick = SDL_GetTicks();
   float last_input_tick = SDL_GetTicks();
@@ -72,6 +95,39 @@ int Runner::play()
 }
 
 int Runner::run()
+{
+  Menu::Option selected_option = Menu::PLAY;
+  while(Menu::QUIT != selected_option)
+  {
+    selected_option = m_menu.run();
+
+    switch(selected_option)
+    {
+      case Menu::PLAY:
+      {
+        int ret_val = run_game();
+        if(ret_val)
+        {
+          return ret_val;
+        }
+        break;
+      }
+      case Menu::HI_SCORE:
+        ///SHOW HISCORES!!!!!!
+        break;
+      case Menu::QUIT:
+        break;
+      default:
+        std::cerr << "\nUnexpected menu option received: " << static_cast<int>(selected_option)
+                  << "\nShutting down...\n";
+        throw 1;
+    }
+  }
+
+  return 0;
+}
+
+int Runner::run_game()
 {
   int ret_val = 0;
 

@@ -11,6 +11,8 @@ public:
   unsigned long get_score() const { return m_score; }
   unsigned get_level() const { return m_level; }
 
+  void reset();
+
 private:
   unsigned long m_score;
   unsigned m_level;
