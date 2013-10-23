@@ -19,6 +19,9 @@ const int GRID_UNIT = 30;
 
 const std::size_t HISCORE_TABLE_MAX_SIZE = 10;
 
+const char* SQUARE_IMG = "pix/square.bmp";
+const char* BACKGROUND_IMG = "pix/background.bmp";
+
 class GameOver {  };
 
 struct Coordinates
