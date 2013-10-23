@@ -27,6 +27,7 @@ public:
   HiScoreTable(const std::string& filename);
   ~HiScoreTable();
 
+  bool is_eligible(const unsigned long score);
   void add_score(const std::string& name, const unsigned long score);
   std::vector<std::string> get_score_vector() const;
 

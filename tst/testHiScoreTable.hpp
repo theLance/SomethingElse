@@ -137,4 +137,24 @@ public:
     HiScoreMapIterator it(m_hiScoreTable->m_score_table.begin());
     assertTestFileContentsInOrder(it, m_hiScoreTable->m_score_table.end());
   }
+
+  void testIsEligable()
+  {
+    const std::string bannerbase("is_eligible");
+    initializeTest(bannerbase);
+
+    // make sure last score isn't 0
+    m_hiScoreTable->add_score(TestConsts::NAME1, TestConsts::SCORE1);
+
+    HiScoreMapIterator penultimateScore(m_hiScoreTable->m_score_table.end()--);
+
+    print_banner(bannerbase + " - lower = no");
+    TS_ASSERT_EQUALS(false, m_hiScoreTable->is_eligible(penultimateScore->first - 1));
+
+    print_banner(bannerbase + " - equal = no");
+    TS_ASSERT_EQUALS(false, m_hiScoreTable->is_eligible(penultimateScore->first));
+
+    print_banner(bannerbase + " - higher = yes");
+    TS_ASSERT_EQUALS(true, m_hiScoreTable->is_eligible(penultimateScore->first + 1));
+  }
 };

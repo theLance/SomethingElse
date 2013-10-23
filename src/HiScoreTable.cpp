@@ -31,9 +31,8 @@ void HiScoreTable::loadHiscoreTable(const std::string& decrypted_data)
   {
     if(counter & 1)
     {
-      score = boost::lexical_cast<unsigned long>(
-                                            decrypted_data.substr(word_begin, word_end - word_begin)
-                                                );
+      score = boost::lexical_cast<unsigned long>(decrypted_data.substr(word_begin,
+                                                                       word_end - word_begin));
       add_score(name, score);
     }
     else
@@ -53,6 +52,11 @@ void HiScoreTable::reduceListToMaxSize()
   {
     m_score_table.erase(--m_score_table.end());
   }
+}
+
+bool HiScoreTable::is_eligible(const unsigned long score)
+{
+  return ((m_score_table.end()--)->first < score);
 }
 
 void HiScoreTable::add_score(const std::string& name, const unsigned long score)
