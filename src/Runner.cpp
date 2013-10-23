@@ -21,7 +21,13 @@ void Runner::analyze_keyboard_input(SDL_Event& event)
 
 void Runner::execute_keyboard_input()
 {
-  if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
+  if(m_keys_pressed[SDLK_ESCAPE]){ m_running = false; }
+  if(m_keys_pressed[SDLK_p])     { m_paused = !m_paused; }
+
+  if(m_paused)
+  {
+    return;
+  }
 
   if(m_keys_pressed[SDLK_UP])    { m_fallobj.rotate_object(); m_keys_pressed[SDLK_UP] = false; }
   if(m_keys_pressed[SDLK_DOWN])  { m_fallobj.move_obj_down(); }
@@ -52,7 +58,7 @@ int Runner::play()
     }
 
     ///FALL DELAY MECHANISM
-    if(current_time > last_fall_tick + m_game_speed)
+    if(!m_paused && current_time > last_fall_tick + m_game_speed)
     {
       SDL_Delay(1);
       last_fall_tick = current_time;

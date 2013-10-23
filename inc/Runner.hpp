@@ -12,6 +12,7 @@ class Runner
 public:
   Runner()  : m_keys_pressed({false})
             , m_running(true)
+            , m_paused(false)
             , m_game_speed(STARTING_SPEED)
             , m_fallobj(m_board)
             , m_board(m_score_board)
@@ -35,6 +36,7 @@ private:
 
   bool          m_keys_pressed[323];
   bool          m_running;
+  bool          m_paused;
 
   float         m_game_speed;
 
