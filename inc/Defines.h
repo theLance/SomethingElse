@@ -3,17 +3,17 @@
 
 #include <exception>
 
-#define WIDTH  800
-#define HEIGHT 600
+const int WIDTH = 800;
+const int HEIGHT = 600;
 
-#define STARTING_SPEED 500
-#define INPUT_SPEED    100
+const float STARTING_SPEED = 500.0;
+const float INPUT_SPEED = 100.0;
 
-#define BASE_SCORE_PER_LINE 10
+const int BASE_SCORE_PER_LINE = 10;
 
-#define GRID_WIDTH  10
-#define GRID_HEIGHT 18
-#define GRID_UNIT 30
+const int GRID_WIDTH  = 10;
+const int GRID_HEIGHT = 18;
+const int GRID_UNIT = 30;
 /** Squares are 30*30p **/
 /** Board is 10*18 squares, which falls 2 short of standard, but whacchagonnado **/
 
