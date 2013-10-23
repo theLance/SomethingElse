@@ -23,14 +23,14 @@ int Drawer::initialize()
   m_level_dest = { 20, 50, 0, 0 };
   m_scoreboard_dest = { 10, 10, 100, 70 };
 
-  m_background.reset(SDL_LoadBMP(BACKGROUND_IMG));
+  m_background.reset(SDL_LoadBMP(BACKGROUND_IMG.c_str()));
   if(!m_background)
   {
     std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;
     return 1;
   }
 
-  m_square.reset(SDL_LoadBMP(SQUARE_IMG), SDL_FreeSurface);
+  m_square.reset(SDL_LoadBMP(SQUARE_IMG.c_str()), SDL_FreeSurface);
   if(!m_square)
   {
     std::cerr << "Unable to load bitmap: " << SDL_GetError() << std::endl;

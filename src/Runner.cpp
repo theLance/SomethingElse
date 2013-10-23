@@ -24,9 +24,9 @@ void Runner::execute_keyboard_input()
   if(m_keys_pressed[SDLK_ESCAPE]) m_running = false;
 
   if(m_keys_pressed[SDLK_UP])    { m_fallobj.rotate_object(); m_keys_pressed[SDLK_UP] = false; }
-  if(m_keys_pressed[SDLK_DOWN])  m_fallobj.move_obj_down();
-  if(m_keys_pressed[SDLK_LEFT])  m_fallobj.move_obj_left();
-  if(m_keys_pressed[SDLK_RIGHT]) m_fallobj.move_obj_right();
+  if(m_keys_pressed[SDLK_DOWN])  { m_fallobj.move_obj_down(); }
+  if(m_keys_pressed[SDLK_LEFT])  { m_fallobj.move_obj_left(); }
+  if(m_keys_pressed[SDLK_RIGHT]) { m_fallobj.move_obj_right(); }
 }
 
 int Runner::play()
