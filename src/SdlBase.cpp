@@ -32,6 +32,14 @@ SdlBase::SdlBase()
     // No use running without text...
     throw 1;
   }
+
+  m_titlefont.reset(TTF_OpenFont("ARIAL.TTF", 60), TTF_CloseFont);
+  if(!m_titlefont)  // This would be strange, since other font is already loaded successfully...
+  {
+    std::cerr << "Unable to load title font: " << SDL_GetError() << std::endl;
+    // No use running without title text...
+    throw 1;
+  }
 }
 
 SdlBase::~SdlBase()
@@ -50,12 +58,17 @@ SdlBase& SdlBase::getInstance()
 
 SDL_Surface* SdlBase::screen()
 {
-  return m_screen;
+  return getInstance().m_screen;
 }
 
 TTF_Font* SdlBase::font()
 {
-  return m_font.get();
+  return getInstance().m_font.get();
+}
+
+TTF_Font* SdlBase::titlefont()
+{
+  return getInstance().m_titlefont.get();
 }
 
 }

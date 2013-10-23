@@ -16,9 +16,10 @@ class SdlBase
 {
 public:
   ~SdlBase();
-  static SdlBase& getInstance();
-  SDL_Surface* screen();
-  TTF_Font* font();
+
+  static SDL_Surface* screen();
+  static TTF_Font* font();
+  static TTF_Font* titlefont();
 
 private:
   SdlBase();
@@ -26,10 +27,13 @@ private:
   SdlBase(const SdlBase&);
   void operator=(const SdlBase&);
 
+  static SdlBase& getInstance();
+
   static std::shared_ptr<SdlBase> m_instance;
 
   SDL_Surface*                    m_screen; /// Released by SDL_Quit() in dtor
   std::shared_ptr<TTF_Font>       m_font;
+  std::shared_ptr<TTF_Font>       m_titlefont;
 };
 
 }
