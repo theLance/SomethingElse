@@ -9,30 +9,24 @@ int Runner::initialize()
   return ret_val;
 }
 
-void Runner::analyze_keyboard_input(SDL_Event& event)
-{
-  switch (event.type)
-  {
-    case SDL_QUIT:    m_running = false;                            break;
-    case SDL_KEYDOWN: m_keys_pressed[event.key.keysym.sym] = true;  break;
-    case SDL_KEYUP:   m_keys_pressed[event.key.keysym.sym] = false; break;
-  }
-}
-
 void Runner::execute_keyboard_input()
 {
-  if(m_keys_pressed[SDLK_ESCAPE]){ m_running = false; }
-  if(m_keys_pressed[SDLK_p])     { m_paused = !m_paused; }
+  if(m_input.keys_pressed[SDLK_ESCAPE]){ m_running = false; }
+  if(m_input.keys_pressed[SDLK_p])     { m_paused = !m_paused; }
 
   if(m_paused)
   {
     return;
   }
 
-  if(m_keys_pressed[SDLK_UP])    { m_fallobj.rotate_object(); m_keys_pressed[SDLK_UP] = false; }
-  if(m_keys_pressed[SDLK_DOWN])  { m_fallobj.move_obj_down(); }
-  if(m_keys_pressed[SDLK_LEFT])  { m_fallobj.move_obj_left(); }
-  if(m_keys_pressed[SDLK_RIGHT]) { m_fallobj.move_obj_right(); }
+  if(m_input.keys_pressed[SDLK_UP])
+  {
+    m_fallobj.rotate_object();
+    m_input.keys_pressed[SDLK_UP] = false;
+  }
+  if(m_input.keys_pressed[SDLK_DOWN])  { m_fallobj.move_obj_down(); }
+  if(m_input.keys_pressed[SDLK_LEFT])  { m_fallobj.move_obj_left(); }
+  if(m_input.keys_pressed[SDLK_RIGHT]) { m_fallobj.move_obj_right(); }
 }
 
 int Runner::play()
@@ -46,7 +40,7 @@ int Runner::play()
   {
     if(SDL_PollEvent(&event))
     {
-      analyze_keyboard_input(event);
+      m_input.analyze_keyboard_input(event);
     }
 
     ///INPUT DELAY MECHANISM
@@ -96,9 +90,9 @@ int Runner::run()
     {
       if(SDL_PollEvent(&event))
       {
-        analyze_keyboard_input(event);
+        m_input.analyze_keyboard_input(event);
       }
-      if(m_keys_pressed[SDLK_ESCAPE])
+      if(m_input.keys_pressed[SDLK_ESCAPE])
       {
         m_running = false;
       }
