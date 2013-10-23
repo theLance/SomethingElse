@@ -10,14 +10,14 @@ HiScoreTable::HiScoreTable(const std::string& filename)
 {
   m_encrypted_file.reset(new Encrypter(filename));
 
-  load_hiscore_table(m_encrypted_file->decrypt());
+  loadHiscoreTable(m_encrypted_file->decrypt());
 }
 
 HiScoreTable::~HiScoreTable()
 {
 }
 
-void HiScoreTable::load_hiscore_table(const std::string& decrypted_data)
+void HiScoreTable::loadHiscoreTable(const std::string& decrypted_data)
 {
   std::size_t word_end;
   std::size_t word_begin = 0;

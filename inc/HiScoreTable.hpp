@@ -31,7 +31,7 @@ public:
   std::vector<std::string> get_score_vector() const;
 
 private:
-  void load_hiscore_table(const std::string& decrypted_data);
+  void loadHiscoreTable(const std::string& decrypted_data);
   void reduceListToMaxSize();
 
   std::multimap<unsigned long, std::string, ScoreComparator> m_score_table;
