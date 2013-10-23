@@ -32,7 +32,7 @@ void Runner::execute_keyboard_input()
   if(m_input.keys_pressed[SDLK_ESCAPE])
   {
     m_input.keys_pressed[SDLK_ESCAPE] = false;
-    m_running = false;
+    throw GameOver();
   }
 
   if(m_input.keys_pressed[SDLK_p]) { m_paused = !m_paused; }
@@ -89,6 +89,7 @@ int Runner::play()
     ///DRAW
     m_drawer.draw_all(m_fallobj.get_coordinates(), m_board.get_occupied_fields(),
                       m_score_board.get_score(), m_score_board.get_level());
+
     SDL_Delay(10);
   }
 
@@ -128,37 +129,39 @@ int Runner::run()
   return 0;
 }
 
+void Runner::end_game()
+{
+  ///declare gameover + draw score
+  SDL_Event event;
+  const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());
+  const std::vector<Coordinates> board_coords(m_board.get_occupied_fields());
+  while(m_running)
+  {
+    if(SDL_PollEvent(&event))
+    {
+      m_input.analyze_keyboard_input(event);
+    }
+    if(m_input.keys_pressed[SDLK_ESCAPE])
+    {
+      m_running = false;
+    }
+
+    m_drawer.draw_gameover(obj_coords, board_coords,
+                           m_score_board.get_score(), m_score_board.get_level());
+
+    SDL_Delay(300);
+  }
+}
+
 int Runner::run_game()
 {
-  int ret_val = 0;
-
   try
   {
-    ret_val = play();
-    return ret_val;
+    play();
   }
   catch(GameOver& ex)
   {
-    ///declare gameover + draw score
-    SDL_Event event;
-    const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());
-    const std::vector<Coordinates> board_coords(m_board.get_occupied_fields());
-    while(m_running)
-    {
-      if(SDL_PollEvent(&event))
-      {
-        m_input.analyze_keyboard_input(event);
-      }
-      if(m_input.keys_pressed[SDLK_ESCAPE])
-      {
-        m_running = false;
-      }
-
-      m_drawer.draw_gameover(obj_coords, board_coords,
-                             m_score_board.get_score(), m_score_board.get_level());
-
-      SDL_Delay(300);
-    }
+    end_game();
   }
   catch(...)
   {
@@ -166,5 +169,5 @@ int Runner::run_game()
     return 1;
   }
 
-  return ret_val;
+  return 0;
 }

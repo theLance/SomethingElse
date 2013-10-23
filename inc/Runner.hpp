@@ -20,6 +20,7 @@ private:
   void reset_parameters();
   int run_game();
   int play();
+  void end_game();
 
   void execute_keyboard_input();
 
