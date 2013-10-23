@@ -25,6 +25,8 @@ class HiScoreTable
 {
 public:
   HiScoreTable(const std::string& filename);
+
+  /// Encrypts the contents of the HiScoreTable map to the encrypted file.
   ~HiScoreTable();
 
   bool is_eligible(const unsigned long score);
@@ -35,8 +37,10 @@ private:
   void loadHiscoreTable(const std::string& decrypted_data);
   void reduceListToMaxSize();
 
-  std::multimap<unsigned long, std::string, ScoreComparator> m_score_table;
-  boost::scoped_ptr<Encrypter>                               m_encrypted_file;
+  typedef std::multimap<unsigned long, std::string, ScoreComparator> HiScoreTableMap;
+
+  HiScoreTableMap              m_score_table;
+  boost::scoped_ptr<Encrypter> m_encrypted_file;
 };
 
 

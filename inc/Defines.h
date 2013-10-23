@@ -27,6 +27,8 @@ const std::string BACKGROUND_IMG("pix/background.bmp");
 
 const std::string TITLE("AWESOME TITLE");
 
+const std::string HI_SCORE_FILE("HiScores.hst");
+
 class GameOver {  };
 
 struct Coordinates

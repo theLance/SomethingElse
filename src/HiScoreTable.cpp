@@ -15,6 +15,15 @@ HiScoreTable::HiScoreTable(const std::string& filename)
 
 HiScoreTable::~HiScoreTable()
 {
+  std::string scoreTableContents("");
+  for(HiScoreTableMap::iterator it = m_score_table.begin(); it != m_score_table.end(); ++it)
+  {
+    scoreTableContents += it->second;
+    scoreTableContents += EncrypterAlgorithm::WORD_SEPARATOR;
+    scoreTableContents += boost::lexical_cast<std::string>(it->first);
+    scoreTableContents += EncrypterAlgorithm::WORD_SEPARATOR;
+  }
+  m_encrypted_file->encrypt(scoreTableContents);
 }
 
 void HiScoreTable::loadHiscoreTable(const std::string& decrypted_data)
