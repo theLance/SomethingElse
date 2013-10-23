@@ -11,9 +11,7 @@
 class Drawer
 {
 public:
-  Drawer() : WINDOW_WIDTH(WIDTH)
-           , WINDOW_HEIGHT(HEIGHT)
-           , m_screen(0)
+  Drawer() : m_screen(0)
            , m_square(0)
            , m_text_surface(0)
            , m_gameover_text(0)
@@ -45,8 +43,6 @@ private:
   void draw_squares_to(const std::vector<Coordinates>& coords);
   void draw_score_board(const unsigned long score, const unsigned level);
 
-  const int      WINDOW_WIDTH;
-  const int      WINDOW_HEIGHT;
   SDL_Surface*   m_screen;
   SDL_Surface*   m_background;
   SDL_Surface*   m_square;

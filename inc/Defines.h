@@ -3,8 +3,8 @@
 
 #include <exception>
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
 
 const float STARTING_SPEED = 500.0;
 const float INPUT_SPEED = 100.0;
