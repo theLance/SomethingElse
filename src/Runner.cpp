@@ -78,10 +78,7 @@ int Runner::run()
   try
   {
     ret_val = play();
-    if(ret_val)
-    {
-      return ret_val;
-    }
+    return ret_val;
   }
   catch(GameOver& ex)
   {
