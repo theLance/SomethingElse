@@ -1,12 +1,14 @@
 #include <HiScoreTable.hpp>
 
-#include <Encrypter.hpp>
-#include <Defines.h>
-
+#include <iomanip>
+#include <sstream>
 #include <boost/lexical_cast.hpp>
 
+#include <Encrypter.hpp>
+#include <Defines.h>
+#include <HiScoreDrawer.hpp>
 
-HiScoreTable::HiScoreTable(const std::string& filename)
+HiScoreTable::HiScoreTable(const std::string& filename) : m_drawer(new HiScoreDrawer)
 {
   m_encrypted_file.reset(new Encrypter(filename));
 
@@ -72,4 +74,23 @@ void HiScoreTable::add_score(const std::string& name, const unsigned long score)
 {
   m_score_table.insert(std::make_pair(score, name));
   reduceListToMaxSize();
+}
+
+const std::vector<std::string> HiScoreTable::get_score_vector() const
+{
+  std::vector<std::string> scoreVector;
+  std::ostringstream line;
+  for(HiScoreTableMap::const_iterator it = m_score_table.begin(); it != m_score_table.end(); ++it)
+  {
+    line << std::left << std::setw(40) << it->second;
+    line << std::right << std::setw(10) << it->first;
+    scoreVector.push_back(line.str());
+    line.str("");
+  }
+  return scoreVector;
+}
+
+void HiScoreTable::display_scores()
+{
+  m_drawer->draw(get_score_vector());
 }

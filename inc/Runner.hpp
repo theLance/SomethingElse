@@ -7,6 +7,7 @@
 #include "Menu.hpp"
 #include "Drawer.hpp"
 #include "FallingObject.hpp"
+#include "HiScoreTable.hpp"
 
 
 class Runner
@@ -37,6 +38,8 @@ private:
   Board         m_board;
 
   Drawer        m_drawer;
+
+  HiScoreTable  m_hiscore_table;
 };
 
 

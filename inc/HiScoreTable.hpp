@@ -9,6 +9,7 @@
 #include <boost/scoped_ptr.hpp>
 
 class Encrypter;
+class HiScoreDrawer;
 
 
 /// Comparator that ensures that score is only considered higher, if it actually is (not on equal).
@@ -31,16 +32,20 @@ public:
 
   bool is_eligible(const unsigned long score);
   void add_score(const std::string& name, const unsigned long score);
-  std::vector<std::string> get_score_vector() const;
+  void display_scores();
 
 private:
   void loadHiscoreTable(const std::string& decrypted_data);
   void reduceListToMaxSize();
 
+  const std::vector<std::string> get_score_vector() const;
+
   typedef std::multimap<unsigned long, std::string, ScoreComparator> HiScoreTableMap;
 
-  HiScoreTableMap              m_score_table;
-  boost::scoped_ptr<Encrypter> m_encrypted_file;
+  HiScoreTableMap                  m_score_table;
+  boost::scoped_ptr<Encrypter>     m_encrypted_file;
+
+  boost::scoped_ptr<HiScoreDrawer> m_drawer;
 };
 
 

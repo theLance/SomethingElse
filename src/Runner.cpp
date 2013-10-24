@@ -6,6 +6,7 @@ Runner::Runner() : m_running(true)
                  , m_game_speed(STARTING_SPEED)
                  , m_fallobj(m_board)
                  , m_board(m_score_board)
+                 , m_hiscore_table(HI_SCORE_FILE)
 {
   if(m_drawer.initialize())
   {
@@ -115,7 +116,7 @@ int Runner::run()
         break;
       }
       case Menu::HI_SCORE:
-        ///SHOW HISCORES!!!!!!
+        m_hiscore_table.display_scores();
         break;
       case Menu::QUIT:
         break;
@@ -131,6 +132,13 @@ int Runner::run()
 
 void Runner::end_game()
 {
+  /*** IMPLEMENT ***/
+  if(m_hiscore_table.is_eligible(m_score_board.get_score()))
+  {
+    /// ASK_FOR_NAME AND ADD TO HISCORES
+  }
+  /*****************/
+
   ///declare gameover + draw score
   SDL_Event event;
   const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());

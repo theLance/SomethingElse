@@ -17,13 +17,11 @@ public:
 private:
   void draw_option(SDL_Rect& prev_rect, unsigned option, unsigned current_choice);
 
-  std::shared_ptr<SDL_Surface>  m_text_surface;
-
-  std::shared_ptr<SDL_Surface>  m_title_text;
-  std::shared_ptr<SDL_Rect>     m_title_dest;
+  std::shared_ptr<SDL_Surface>    m_title_text;
+  std::shared_ptr<SDL_Rect>       m_title_dest;
 
   std::map<unsigned, std::string> m_options_text_map;
-  std::shared_ptr<SDL_Surface>  m_option_text;
+  std::shared_ptr<SDL_Surface>    m_option_text;
 };
 
 
