@@ -34,13 +34,11 @@ public:
   void add_score(const std::string& name, const unsigned long score);
   void display_scores();
 
+  typedef std::multimap<unsigned long, std::string, ScoreComparator> HiScoreTableMap;
+
 private:
   void loadHiscoreTable(const std::string& decrypted_data);
   void reduceListToMaxSize();
-
-  const std::vector<std::string> get_score_vector() const;
-
-  typedef std::multimap<unsigned long, std::string, ScoreComparator> HiScoreTableMap;
 
   HiScoreTableMap                  m_score_table;
   boost::scoped_ptr<Encrypter>     m_encrypted_file;

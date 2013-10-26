@@ -1,7 +1,5 @@
 #include <HiScoreTable.hpp>
 
-#include <iomanip>
-#include <sstream>
 #include <boost/lexical_cast.hpp>
 
 #include <Encrypter.hpp>
@@ -76,21 +74,7 @@ void HiScoreTable::add_score(const std::string& name, const unsigned long score)
   reduceListToMaxSize();
 }
 
-const std::vector<std::string> HiScoreTable::get_score_vector() const
-{
-  std::vector<std::string> scoreVector;
-  std::ostringstream line;
-  for(HiScoreTableMap::const_iterator it = m_score_table.begin(); it != m_score_table.end(); ++it)
-  {
-    line << std::left << std::setw(40) << it->second;
-    line << std::right << std::setw(10) << it->first;
-    scoreVector.push_back(line.str());
-    line.str("");
-  }
-  return scoreVector;
-}
-
 void HiScoreTable::display_scores()
 {
-  m_drawer->draw(get_score_vector());
+  m_drawer->draw(m_score_table);
 }

@@ -1,5 +1,7 @@
 #include <HiScoreDrawer.hpp>
 
+#include <boost/lexical_cast.hpp>
+
 #include <SdlBase.hpp>
 
 #include <Defines.h>
@@ -13,10 +15,10 @@ HiScoreDrawer::HiScoreDrawer()
 
   m_title_dest.reset(new SDL_Rect);
   m_title_dest->x = SdlExt::SdlBase::screen()->w / 2 - m_title_text->w / 2;
-  m_title_dest->y = SdlExt::SdlBase::screen()->h / 12 - m_title_text->h / 2;
+  m_title_dest->y = SdlExt::SdlBase::screen()->h / 15 - m_title_text->h / 2;
 }
 
-void HiScoreDrawer::display_board(const std::vector<std::string>& score_vector)
+void HiScoreDrawer::display_board(const HiScoreTable::HiScoreTableMap& score_map)
 {
   ///CLEAR SCREEN
   SDL_FillRect(SdlExt::SdlBase::screen(), NULL,
@@ -27,32 +29,39 @@ void HiScoreDrawer::display_board(const std::vector<std::string>& score_vector)
 
   ///DRAW SCORES
   SDL_Rect line_dest;
-  line_dest.y = m_title_dest->y + m_title_text->h;
-  line_dest.x = SdlExt::SdlBase::screen()->w / 5;
+  unsigned name_start_x_coord = SdlExt::SdlBase::screen()->w / 5;
+  unsigned score_end_x_coord = (SdlExt::SdlBase::screen()->w / 5) * 4;
+  line_dest.y = m_title_dest->y + m_title_text->h * 2;
 
-  for(std::vector<std::string>::const_iterator line = score_vector.begin();
-      line != score_vector.end();
-      line++)
+  for(HiScoreTable::HiScoreTableMap::const_iterator entry = score_map.begin();
+      entry != score_map.end();
+      entry++)
   {
-    m_line_surface.reset(TTF_RenderText_Shaded(SdlExt::SdlBase::font(), line->c_str(),
+    m_line_surface.reset(TTF_RenderText_Shaded(SdlExt::SdlBase::font(), entry->second.c_str(),
                                                SdlExt::WHITE, SdlExt::BLACK));
+    line_dest.x = name_start_x_coord;
+    SDL_BlitSurface(m_line_surface.get(), 0, SdlExt::SdlBase::screen(), &line_dest);
+
+    m_line_surface.reset(TTF_RenderText_Shaded(SdlExt::SdlBase::font(),
+                                               boost::lexical_cast<std::string>(entry->first).c_str(),
+                                               SdlExt::WHITE, SdlExt::BLACK));
+    line_dest.x = score_end_x_coord - m_line_surface->w;
+    SDL_BlitSurface(m_line_surface.get(), 0, SdlExt::SdlBase::screen(), &line_dest);
 
     line_dest.y += m_line_surface->h * 2;
-
-    SDL_BlitSurface(m_line_surface.get(), 0, SdlExt::SdlBase::screen(), &line_dest);
   }
 
   SDL_Flip(SdlExt::SdlBase::screen());
 }
 
-void HiScoreDrawer::draw(const std::vector<std::string>& score_vector)
+void HiScoreDrawer::draw(const HiScoreTable::HiScoreTableMap& score_map)
 {
   SDL_Event event;
   bool running(true);
 
   while(running)
   {
-    display_board(score_vector);
+    display_board(score_map);
 
     if(SDL_PollEvent(&event))
     {
