@@ -29,8 +29,8 @@ void HiScoreDrawer::display_board(const HiScoreTable::HiScoreTableMap& score_map
 
   ///DRAW SCORES
   SDL_Rect line_dest;
-  unsigned name_start_x_coord = SdlExt::SdlBase::screen()->w / 5;
-  unsigned score_end_x_coord = (SdlExt::SdlBase::screen()->w / 5) * 4;
+  int name_start_x_coord = SdlExt::SdlBase::screen()->w / 5;
+  int score_end_x_coord = (SdlExt::SdlBase::screen()->w / 5) * 4;
   line_dest.y = m_title_dest->y + m_title_text->h * 2;
 
   for(HiScoreTable::HiScoreTableMap::const_iterator entry = score_map.begin();
