@@ -71,4 +71,15 @@ TTF_Font* SdlBase::titlefont()
   return getInstance().m_titlefont.get();
 }
 
+
+EnableUnicode::EnableUnicode()
+{
+  SDL_EnableUNICODE(SDL_ENABLE);
+}
+
+EnableUnicode::~EnableUnicode()
+{
+  SDL_EnableUNICODE(SDL_DISABLE);
+}
+
 }

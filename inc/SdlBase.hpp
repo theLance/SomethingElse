@@ -37,6 +37,12 @@ private:
   std::shared_ptr<TTF_Font>       m_titlefont;
 };
 
+struct EnableUnicode
+{
+  EnableUnicode();
+  ~EnableUnicode();
+};
+
 }
 
 #endif // SDLBASE_HPP_INCLUDED
