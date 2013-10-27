@@ -37,12 +37,6 @@ int Drawer::initialize()
     return 1;
   }
 
-  m_gameover_text.reset(TTF_RenderText_Shaded(SdlExt::SdlBase::font(), "GAME OVER",
-                                              SdlExt::WHITE, SdlExt::BLACK),
-                        SDL_FreeSurface);
-  m_gameover_sign_dest.x = SdlExt::SdlBase::screen()->w / 2 - m_gameover_text->w / 2;
-  m_gameover_sign_dest.y = SdlExt::SdlBase::screen()->h / 2 - m_gameover_text->h / 2;
-
   return 0;
 }
 
@@ -113,12 +107,54 @@ void Drawer::draw_all(const std::vector<Coordinates>& object_coords,
   SDL_Flip(SdlExt::SdlBase::screen());
 }
 
+void Drawer::set_fixed_centered_text_and_position(std::shared_ptr<SDL_Surface>& surface,
+                                                  SDL_Rect& position,
+                                                  const std::string& text,
+                                                  int central_height)
+{
+  surface.reset(TTF_RenderText_Shaded(SdlExt::SdlBase::font(), text.c_str(),
+                                      SdlExt::WHITE, SdlExt::BLACK),
+                SDL_FreeSurface);
+  position.x = SdlExt::SdlBase::screen()->w / 2 - surface->w / 2;
+  position.y = central_height - surface->h / 2;
+}
+
 void Drawer::draw_gameover(const std::vector<Coordinates>& object_coords,
                            const std::vector<Coordinates>& board_coords,
                            const unsigned long score,
                            const unsigned level)
 {
   draw_all(object_coords, board_coords, score, level);
-  SDL_BlitSurface(m_gameover_text.get(), 0, SdlExt::SdlBase::screen(), &m_gameover_sign_dest);
+
+  std::shared_ptr<SDL_Surface>   gameover_text;
+  SDL_Rect                       gameover_sign_dest;
+
+  set_fixed_centered_text_and_position(gameover_text, gameover_sign_dest, "GAME OVER",
+                                       SdlExt::SdlBase::screen()->h / 2);
+
+  SDL_BlitSurface(gameover_text.get(), 0, SdlExt::SdlBase::screen(), &gameover_sign_dest);
+  SDL_Flip(SdlExt::SdlBase::screen());
+}
+
+void Drawer::draw_gameover_with_new_hiscore(const std::vector<Coordinates>& object_coords,
+                                            const std::vector<Coordinates>& board_coords,
+                                            const unsigned long score,
+                                            const unsigned level)
+{
+  draw_gameover(object_coords, board_coords, score, level);
+
+  std::shared_ptr<SDL_Surface>   new_hiscore_text;
+  std::shared_ptr<SDL_Surface>   enter_name_text;
+  SDL_Rect                       new_hiscore_sign_dest;
+  SDL_Rect                       enter_name_dest;
+
+  set_fixed_centered_text_and_position(new_hiscore_text, new_hiscore_sign_dest,
+                                       "NEW HIGH SCORE! CONGRATULATIONS!",
+                                       SdlExt::SdlBase::screen()->h / 4);
+  set_fixed_centered_text_and_position(enter_name_text, enter_name_dest,
+                                       "ENTER YOUR NAME:",
+                                       SdlExt::SdlBase::screen()->h / 4 + new_hiscore_text->h);
+  SDL_BlitSurface(new_hiscore_text.get(), 0, SdlExt::SdlBase::screen(), &new_hiscore_sign_dest);
+  SDL_BlitSurface(enter_name_text.get(), 0, SdlExt::SdlBase::screen(), &enter_name_dest);
   SDL_Flip(SdlExt::SdlBase::screen());
 }

@@ -27,7 +27,16 @@ public:
                      const unsigned long score,
                      const unsigned level);
 
+  void draw_gameover_with_new_hiscore(const std::vector<Coordinates>& object_coords,
+                                      const std::vector<Coordinates>& board_coords,
+                                      const unsigned long score,
+                                      const unsigned level);
+
 private:
+  void set_fixed_centered_text_and_position(std::shared_ptr<SDL_Surface>& surface,
+                                            SDL_Rect& position,
+                                            const std::string& text,
+                                            int central_height);
   void calculate_block_position(const Coordinates& coord);
   void draw_squares_to(const std::vector<Coordinates>& coords);
   void draw_score_board(const unsigned long score, const unsigned level);
@@ -43,9 +52,6 @@ private:
   SDL_Rect                       m_scoreboard_dest;
 
   SDL_Rect                       m_objpos;
-
-  std::shared_ptr<SDL_Surface>   m_gameover_text;
-  SDL_Rect                       m_gameover_sign_dest;
 };
 
 
