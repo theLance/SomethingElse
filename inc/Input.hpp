@@ -15,6 +15,8 @@ struct Input
 
   void reset();
 
+  void wait_for_escape();
+
   std::vector<bool> keys_pressed;
 };
 
