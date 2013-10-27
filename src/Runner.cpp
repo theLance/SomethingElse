@@ -1,5 +1,7 @@
 #include <Runner.hpp>
 
+#include <SdlBase.hpp>
+
 
 Runner::Runner() : m_running(true)
                  , m_paused(false)
@@ -151,14 +153,33 @@ int Runner::run_main_menu()
 
 void Runner::add_new_hiscore()
 {
-  /*** IMPLEMENT ***/
+  SdlExt::EnableUnicode raii_enabler;
 
   m_drawer.draw_new_hiscore_sign();
+
+  std::string name;
+  std::string name_copy("tmp");
+
+  bool input_finished(false);
+  while(!input_finished)
+  {
+    input_finished = m_input.add_string_input_to(name);
+    if(0 != name.compare(name_copy))
+    {
+      m_drawer.draw_string_input_box(name);
+      name_copy = name;
+    }
+
+    if(input_finished)
+    {
+      input_finished = !name.empty();
+    }
+
+    SDL_Delay(10);
+  }
+  m_hiscore_table.add_score(name, m_score_board.get_score());
+
   m_input.wait_for_escape();
-
-  ///m_hiscore_table.add_score(name, m_score_board.get_score());
-
-  /*** IMPLEMENT ***/
 }
 
 void Runner::end_game()

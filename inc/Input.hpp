@@ -2,6 +2,7 @@
 #define INPUT_HPP_INCLUDED
 
 #include <vector>
+#include <string>
 
 #include "Defines.h"
 
@@ -16,6 +17,8 @@ struct Input
   void reset();
 
   void wait_for_escape();
+
+  bool add_string_input_to(std::string& iostring);
 
   std::vector<bool> keys_pressed;
 };

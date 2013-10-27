@@ -66,7 +66,7 @@ void HiScoreTable::reduceListToMaxSize()
 bool HiScoreTable::is_eligible(const unsigned long score)
 {
   return (m_score_table.size() < HISCORE_TABLE_MAX_SIZE) ||
-         ((m_score_table.end()--)->first < score);
+         (std::prev(m_score_table.end())->first < score);
 }
 
 void HiScoreTable::add_score(const std::string& name, const unsigned long score)

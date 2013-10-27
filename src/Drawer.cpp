@@ -153,3 +153,24 @@ void Drawer::draw_new_hiscore_sign()
   SDL_BlitSurface(enter_name_text.get(), 0, SdlExt::SdlBase::screen(), &enter_name_dest);
   SDL_Flip(SdlExt::SdlBase::screen());
 }
+
+void Drawer::draw_string_input_box(const std::string& input)
+{
+  std::shared_ptr<SDL_Surface> name;
+  SDL_Rect                     name_pos;
+  SDL_Rect                     blank_pos_for_input;
+
+  set_fixed_centered_text_and_position(name, name_pos, (input.empty()) ? " " : input,
+                                       SdlExt::SdlBase::screen()->h / 3);
+
+  blank_pos_for_input.x = SdlExt::SdlBase::screen()->w / 4;
+  blank_pos_for_input.w = SdlExt::SdlBase::screen()->w / 2;
+  blank_pos_for_input.y = name_pos.y;
+  blank_pos_for_input.h = name->h;
+
+  SDL_FillRect(SdlExt::SdlBase::screen(), &blank_pos_for_input,
+               SDL_MapRGB(SdlExt::SdlBase::screen()->format, 0, 0, 0));
+
+  SDL_BlitSurface(name.get(), 0, SdlExt::SdlBase::screen(), &name_pos);
+  SDL_Flip(SdlExt::SdlBase::screen());
+}

@@ -36,3 +36,29 @@ void Input::wait_for_escape()
     SDL_Delay(100);
   }
 }
+
+bool Input::add_string_input_to(std::string& iostring)
+{
+  SDL_Event event;
+  SDL_PollEvent(&event);
+  if(SDL_KEYDOWN == event.type)
+  {
+    if(SDLK_RETURN == event.key.keysym.sym)
+    {
+      return true;
+    }
+
+    if(SDLK_BACKSPACE == event.key.keysym.sym && !iostring.empty())
+    {
+      iostring.pop_back();
+    }
+    else if(HISCORE_NAME_MAX_SIZE >= iostring.size() &&
+            SDLK_BACKSLASH != event.key.keysym.unicode &&
+            SDLK_SPACE <= event.key.keysym.unicode &&
+            SDLK_z >= event.key.keysym.unicode)
+    {
+      iostring += event.key.keysym.unicode;
+    }
+  }
+  return false;
+}

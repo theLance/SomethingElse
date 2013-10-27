@@ -21,6 +21,7 @@ const int GRID_UNIT = 30;
 /** Board is 10*18 squares, which falls 2 short of standard, but whacchagonnado **/
 
 const std::size_t HISCORE_TABLE_MAX_SIZE = 10;
+const std::size_t HISCORE_NAME_MAX_SIZE = 25;
 
 const std::string SQUARE_IMG("pix/square.bmp");
 const std::string BACKGROUND_IMG("pix/background.bmp");

@@ -29,6 +29,8 @@ public:
 
   void draw_new_hiscore_sign();
 
+  void draw_string_input_box(const std::string& input);
+
 private:
   void set_fixed_centered_text_and_position(std::shared_ptr<SDL_Surface>& surface,
                                             SDL_Rect& position,
