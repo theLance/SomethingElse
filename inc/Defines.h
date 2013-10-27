@@ -31,6 +31,8 @@ const std::string HI_SCORE_FILE("HiScores.hst");
 
 class GameOver {  };
 
+class AbruptExit {  };
+
 struct Coordinates
 {
   Coordinates() : x(0), y(0) {}
