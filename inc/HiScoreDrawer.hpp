@@ -18,8 +18,6 @@ public:
   void draw(const HiScoreTable::HiScoreTableMap& score_map);
 
 private:
-  void display_board(const HiScoreTable::HiScoreTableMap& score_map);
-
   std::shared_ptr<SDL_Surface>    m_title_text;
   std::shared_ptr<SDL_Rect>       m_title_dest;
 

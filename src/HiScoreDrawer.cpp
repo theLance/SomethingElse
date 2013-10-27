@@ -18,7 +18,7 @@ HiScoreDrawer::HiScoreDrawer()
   m_title_dest->y = SdlExt::SdlBase::screen()->h / 15 - m_title_text->h / 2;
 }
 
-void HiScoreDrawer::display_board(const HiScoreTable::HiScoreTableMap& score_map)
+void HiScoreDrawer::draw(const HiScoreTable::HiScoreTableMap& score_map)
 {
   ///CLEAR SCREEN
   SDL_FillRect(SdlExt::SdlBase::screen(), NULL,
@@ -52,30 +52,4 @@ void HiScoreDrawer::display_board(const HiScoreTable::HiScoreTableMap& score_map
   }
 
   SDL_Flip(SdlExt::SdlBase::screen());
-}
-
-void HiScoreDrawer::draw(const HiScoreTable::HiScoreTableMap& score_map)
-{
-  SDL_Event event;
-  bool running(true);
-
-  while(running)
-  {
-    display_board(score_map);
-
-    if(SDL_PollEvent(&event))
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        case SDL_KEYDOWN:
-          running = false;
-          break;
-        default:
-          break;
-      }
-    }
-
-    SDL_Delay(10);
-  }
 }
