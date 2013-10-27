@@ -149,6 +149,18 @@ int Runner::run_main_menu()
   return 0;
 }
 
+void Runner::add_new_hiscore()
+{
+  /*** IMPLEMENT ***/
+
+  m_drawer.draw_new_hiscore_sign();
+  m_input.wait_for_escape();
+
+  ///m_hiscore_table.add_score(name, m_score_board.get_score());
+
+  /*** IMPLEMENT ***/
+}
+
 void Runner::end_game()
 {
   const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());
@@ -157,6 +169,14 @@ void Runner::end_game()
   ///declare gameover + draw score
   m_drawer.draw_gameover(obj_coords, board_coords,
                          m_score_board.get_score(), m_score_board.get_level());
+
+  ///if new hiscore, request name and go to HiScore board
+  if(m_hiscore_table.is_eligible(m_score_board.get_score()))
+  {
+    add_new_hiscore();
+
+    m_hiscore_table.display_scores();
+  }
 
   m_input.wait_for_escape();
 }

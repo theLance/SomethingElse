@@ -136,13 +136,8 @@ void Drawer::draw_gameover(const std::vector<Coordinates>& object_coords,
   SDL_Flip(SdlExt::SdlBase::screen());
 }
 
-void Drawer::draw_gameover_with_new_hiscore(const std::vector<Coordinates>& object_coords,
-                                            const std::vector<Coordinates>& board_coords,
-                                            const unsigned long score,
-                                            const unsigned level)
+void Drawer::draw_new_hiscore_sign()
 {
-  draw_gameover(object_coords, board_coords, score, level);
-
   std::shared_ptr<SDL_Surface>   new_hiscore_text;
   std::shared_ptr<SDL_Surface>   enter_name_text;
   SDL_Rect                       new_hiscore_sign_dest;

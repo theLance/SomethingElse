@@ -23,6 +23,7 @@ private:
   int run_game();
   int play();
   void end_game();
+  void add_new_hiscore();
 
   void execute_keyboard_input();
 

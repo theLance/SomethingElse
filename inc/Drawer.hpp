@@ -27,10 +27,7 @@ public:
                      const unsigned long score,
                      const unsigned level);
 
-  void draw_gameover_with_new_hiscore(const std::vector<Coordinates>& object_coords,
-                                      const std::vector<Coordinates>& board_coords,
-                                      const unsigned long score,
-                                      const unsigned level);
+  void draw_new_hiscore_sign();
 
 private:
   void set_fixed_centered_text_and_position(std::shared_ptr<SDL_Surface>& surface,
