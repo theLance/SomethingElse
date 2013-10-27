@@ -99,6 +99,24 @@ int Runner::play()
 
 int Runner::run()
 {
+  try
+  {
+    return run_main_menu();
+  }
+  catch(AbruptExit& ex)
+  {
+    std::cerr << "\nGraphic window closed. Exiting game." << std::endl;
+    return 1;
+  }
+  catch(...)
+  {
+    std::cerr << "\nUnexpected exception caught in Runner::run()" << std::endl;
+    return -1;
+  }
+}
+
+int Runner::run_main_menu()
+{
   Menu::Option selected_option = Menu::PLAY;
   while(Menu::QUIT != selected_option)
   {
@@ -117,13 +135,14 @@ int Runner::run()
       }
       case Menu::HI_SCORE:
         m_hiscore_table.display_scores();
+        m_input.wait_for_escape();
         break;
       case Menu::QUIT:
         break;
       default:
         std::cerr << "\nUnexpected menu option received: " << static_cast<int>(selected_option)
                   << "\nShutting down...\n";
-        throw 1;
+        return -1;
     }
   }
 
@@ -132,33 +151,14 @@ int Runner::run()
 
 void Runner::end_game()
 {
-  /*** IMPLEMENT ***/
-  if(m_hiscore_table.is_eligible(m_score_board.get_score()))
-  {
-    /// ASK_FOR_NAME AND ADD TO HISCORES
-  }
-  /*****************/
-
-  ///declare gameover + draw score
-  SDL_Event event;
   const std::vector<Coordinates> obj_coords(m_fallobj.get_coordinates());
   const std::vector<Coordinates> board_coords(m_board.get_occupied_fields());
-  while(m_running)
-  {
-    if(SDL_PollEvent(&event))
-    {
-      m_input.analyze_keyboard_input(event);
-    }
-    if(m_input.keys_pressed[SDLK_ESCAPE])
-    {
-      m_running = false;
-    }
 
-    m_drawer.draw_gameover(obj_coords, board_coords,
-                           m_score_board.get_score(), m_score_board.get_level());
+  ///declare gameover + draw score
+  m_drawer.draw_gameover(obj_coords, board_coords,
+                         m_score_board.get_score(), m_score_board.get_level());
 
-    SDL_Delay(300);
-  }
+  m_input.wait_for_escape();
 }
 
 int Runner::run_game()
@@ -170,11 +170,6 @@ int Runner::run_game()
   catch(GameOver& ex)
   {
     end_game();
-  }
-  catch(...)
-  {
-    std::cerr << "\nUnexpected exception caught in Runner::run()" << std::endl;
-    return 1;
   }
 
   return 0;

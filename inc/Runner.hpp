@@ -19,6 +19,7 @@ public:
 
 private:
   void reset_parameters();
+  int run_main_menu();
   int run_game();
   int play();
   void end_game();
