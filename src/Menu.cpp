@@ -13,13 +13,6 @@ Menu::Menu() : m_menu_drawer(new MenuDrawer)
 
 void Menu::execute_keyboard_input()
 {
-  if(m_input.keys_pressed[SDLK_ESCAPE])
-  {
-    m_not_chosen_yet = false;
-    m_current_choice = QUIT;
-    return;
-  }
-
   if(m_input.keys_pressed[SDLK_RETURN])
   {
     m_input.keys_pressed[SDLK_RETURN] = false;
