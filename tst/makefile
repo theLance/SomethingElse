@@ -9,7 +9,6 @@ BASIC_ALL_TST_HPP  := $(BASIC_ALL_OBJS:%.o=test%.hpp)
 BASIC_ALL_TST_CPP  := $(BASIC_ALL_TST_HPP:%.hpp=%.cpp)
 
 BASIC_RUNNER_EXEC := run_tests.exe
-BASIC_RUNNER_OBJ  := $(BASIC_RUNNER_EXEC:.exe=.o)
 BASIC_RUNNER_SRC  := $(BASIC_RUNNER_EXEC:.exe=.cpp)
 
 
