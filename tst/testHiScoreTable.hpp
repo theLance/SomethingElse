@@ -53,16 +53,10 @@ public:
     assertTestFileContentsInOrderFrom(TestConsts::ORDERED_TESTCONTENTS_VECTOR.begin(), it, end);
   }
 
-  /// TODO: std::advance ??
-  HiScoreMapIterator getIteratorOfRelativePosition(const HiScoreMapIterator orig,
-                                                   const size_t offset)
+  HiScoreMapIterator getIteratorOfRelativePosition(HiScoreMapIterator pos, const size_t offset)
   {
-    HiScoreMapIterator it = orig;
-    for(size_t i = 0; i < offset; ++i)
-    {
-      ++it;
-    }
-    return it;
+    std::advance(pos, offset);
+    return pos;
   }
 
   void testLoadHiScoreTable()
@@ -95,9 +89,7 @@ public:
     print_banner(bannerbase);
 
     print_banner(bannerbase + " - size still OK");
-    printTable();
     insertAndVerify(name, score, HISCORE_TABLE_MAX_SIZE);
-    printTable();
 
     print_banner(bannerbase + " - inserted to proper place");
     HiScoreMapIterator it = getIteratorOfRelativePosition(m_hiScoreTable->m_score_table.begin(),
