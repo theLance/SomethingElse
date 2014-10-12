@@ -1,6 +1,8 @@
-INCLUDE= -I../inc
+INCLUDE= -I../inc -Ifakes
 
 SRC= ../src/
+
+FAKE :=  FakeHiScoreDrawer.o
 
 BASIC_ALL_OBJS := FileHandler.o Encrypter.o HiScoreTable.o
 BASIC_ALL_SRCS := $(BASIC_ALL_OBJS:%.o=$(SRC)%.cpp)
@@ -18,11 +20,16 @@ CXXGEN=python c:\mingw\cxxtest\bin\cxxtestgen --error-printer
 
 ##########
 
-$(BASIC_RUNNER_EXEC): $(BASIC_RUNNER_SRC) $(BASIC_ALL_OBJS)
-	$(CC) $(INCLUDE) $(BASIC_RUNNER_SRC) $(BASIC_ALL_OBJS) -std=c++0x -o $@
+$(BASIC_RUNNER_EXEC): $(BASIC_RUNNER_SRC) $(FAKE) $(BASIC_ALL_OBJS)
+	$(CC) $(INCLUDE) $(BASIC_RUNNER_SRC) $(FAKE) $(BASIC_ALL_OBJS) -std=c++0x -o $@
 
 $(BASIC_RUNNER_SRC) : $(BASIC_ALL_TST_HPP)
 	$(CXXGEN) -o $@ $(BASIC_ALL_TST_HPP)
+
+##########
+
+$(FAKE): $(FAKE:%.o=fakes/%.cpp)
+	$(CC) $(INCLUDE) -c $(@:%.o=fakes/%.cpp) -std=c++0x -o $@
 
 ##########
 

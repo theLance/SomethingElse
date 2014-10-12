@@ -4,6 +4,7 @@
 
 #define private public
 
+
 #include <HiScoreTable.hpp>
 
 #include "CommonConstants.hpp"
@@ -18,7 +19,7 @@ public:
   void setUp()
   {
     createTestFile(TestConsts::ENCRYPT_WITH_LAME_ALGO);
-    m_hiScoreTable.reset(NULL);
+    m_hiScoreTable.reset(new HiScoreTable(TestConsts::TESTFILE));
   }
 
   void print_banner(const std::string& testcase)
@@ -52,6 +53,7 @@ public:
     assertTestFileContentsInOrderFrom(TestConsts::ORDERED_TESTCONTENTS_VECTOR.begin(), it, end);
   }
 
+  /// TODO: std::advance ??
   HiScoreMapIterator getIteratorOfRelativePosition(const HiScoreMapIterator orig,
                                                    const size_t offset)
   {
@@ -63,15 +65,9 @@ public:
     return it;
   }
 
-  void initializeTest(const std::string& banner)
-  {
-    print_banner(banner);
-    m_hiScoreTable.reset(new HiScoreTable(TestConsts::TESTFILE));
-  }
-
   void testLoadHiScoreTable()
   {
-    initializeTest("Loading from file");
+    print_banner("Loading from file");
     HiScoreMapIterator it = m_hiScoreTable->m_score_table.begin();
 
     print_banner("Entries in order");
@@ -96,10 +92,12 @@ public:
   {
     tearDown();
     setUp();
-    initializeTest(bannerbase);
+    print_banner(bannerbase);
 
     print_banner(bannerbase + " - size still OK");
+    printTable();
     insertAndVerify(name, score, HISCORE_TABLE_MAX_SIZE);
+    printTable();
 
     print_banner(bannerbase + " - inserted to proper place");
     HiScoreMapIterator it = getIteratorOfRelativePosition(m_hiScoreTable->m_score_table.begin(),
@@ -128,7 +126,7 @@ public:
   void testAddScoreThatIsOffTheTable()
   {
     const std::string bannerbase("Add too low score");
-    initializeTest(bannerbase);
+    print_banner(bannerbase);
 
     print_banner(bannerbase + " - size still OK");
     insertAndVerify("Loser", TestConsts::SCORE10, HISCORE_TABLE_MAX_SIZE);
@@ -141,7 +139,7 @@ public:
   void testIsEligable()
   {
     const std::string bannerbase("is_eligible");
-    initializeTest(bannerbase);
+    print_banner(bannerbase);
 
     // make sure last score isn't 0
     m_hiScoreTable->add_score(TestConsts::NAME1, TestConsts::SCORE1);
