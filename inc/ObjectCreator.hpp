@@ -6,11 +6,10 @@
 struct Coordinates;
 
 
-class ObjectCreator
+namespace ObjectCreator
 {
-public:
-  static std::vector<Coordinates> get_random_object();
-};
+  std::vector<Coordinates> get_random_object();
+}
 
 
 #endif // OBJECTCREATOR_HPP_INCLUDED
