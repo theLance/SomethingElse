@@ -1,6 +1,7 @@
 #include <ObjectCreator.hpp>
 
 #include <cstdlib>
+#include <map>
 
 
 namespace
@@ -88,39 +89,24 @@ namespace
   const std::vector<Coordinates> ZBLOCK = returnZblock();
   const std::vector<Coordinates> TBLOCK = returnTblock();
 
+  std::map< ObjectType, std::vector<Coordinates> > returnMap()
+  {
+    std::map< ObjectType, std::vector<Coordinates> > objs;
+    objs[OT_SQUARE] = SQUARE;
+    objs[OT_LINE] = LINE;
+    objs[OT_LBLOCK] = LBLOCK;
+    objs[OT_JBLOCK] = JBLOCK;
+    objs[OT_SBLOCK] = SBLOCK;
+    objs[OT_ZBLOCK] = ZBLOCK;
+    objs[OT_TBLOCK] = TBLOCK;
+    return objs;
+  }
+
+  const std::map< ObjectType, std::vector<Coordinates> > OBJECT_MAP = returnMap();
+
   std::vector<Coordinates> get_object(ObjectType type)
   {
-    switch(type)
-    {
-      case OT_SQUARE:
-      {
-        return SQUARE;
-      }
-      case OT_LINE:
-      {
-        return LINE;
-      }
-      case OT_LBLOCK:
-      {
-        return LBLOCK;
-      }
-      case OT_JBLOCK:
-      {
-        return JBLOCK;
-      }
-      case OT_SBLOCK:
-      {
-        return SBLOCK;
-      }
-      case OT_ZBLOCK:
-      {
-        return ZBLOCK;
-      }
-      case OT_TBLOCK:
-      {
-        return TBLOCK;
-      }
-    }
+    return OBJECT_MAP.at(type);
   }
 }
 
