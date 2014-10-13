@@ -3,6 +3,81 @@
 #include <cstdlib>
 
 
+namespace
+{
+  std::vector<Coordinates> returnSquare()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(0, -1));
+    coords.push_back(Coordinates(1, -1));
+    coords.push_back(Coordinates(1, 0));
+    return coords;
+  }
+  std::vector<Coordinates> returnLine()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(0, -1));
+    coords.push_back(Coordinates(0, 1));
+    coords.push_back(Coordinates(0, 2));
+    return coords;
+  }
+  std::vector<Coordinates> returnLblock()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(0, -1));
+    coords.push_back(Coordinates(0, 1));
+    coords.push_back(Coordinates(1, 1));
+    return coords;
+  }
+  std::vector<Coordinates> returnJblock()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(0, -1));
+    coords.push_back(Coordinates(0, 1));
+    coords.push_back(Coordinates(-1, 1));
+    return coords;
+  }
+  std::vector<Coordinates> returnSblock()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(1, 0));
+    coords.push_back(Coordinates(0, 1));
+    coords.push_back(Coordinates(-1, 1));
+    return coords;
+  }
+  std::vector<Coordinates> returnZblock()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(-1, 0));
+    coords.push_back(Coordinates(0, 1));
+    coords.push_back(Coordinates(1, 1));
+    return coords;
+  }
+  std::vector<Coordinates> returnTblock()
+  {
+    std::vector<Coordinates> coords;
+    coords.push_back(Coordinates(0, 0));
+    coords.push_back(Coordinates(-1, 0));
+    coords.push_back(Coordinates(1, 0));
+    coords.push_back(Coordinates(0, -1));
+    return coords;
+  }
+}
+
+const std::vector<Coordinates> ObjectCreator::SQUARE = returnSquare();
+const std::vector<Coordinates> ObjectCreator::LINE = returnLine();
+const std::vector<Coordinates> ObjectCreator::LBLOCK = returnLblock();
+const std::vector<Coordinates> ObjectCreator::JBLOCK = returnJblock();
+const std::vector<Coordinates> ObjectCreator::SBLOCK = returnSblock();
+const std::vector<Coordinates> ObjectCreator::ZBLOCK = returnZblock();
+const std::vector<Coordinates> ObjectCreator::TBLOCK = returnTblock();
+
 std::vector<Coordinates> ObjectCreator::get_random_object()
 {
   return get_object(ObjectType(rand() % 7 + 1));
@@ -10,60 +85,35 @@ std::vector<Coordinates> ObjectCreator::get_random_object()
 
 std::vector<Coordinates> ObjectCreator::get_object(ObjectType type)
 {
-  std::vector<Coordinates> obj_coords;
-  obj_coords.push_back(Coordinates(0, 0));
-
   switch(type)
   {
     case OT_SQUARE:
     {
-      obj_coords.push_back(Coordinates(0, -1));
-      obj_coords.push_back(Coordinates(1, -1));
-      obj_coords.push_back(Coordinates(1, 0));
-      break;
+      return SQUARE;
     }
     case OT_LINE:
     {
-      obj_coords.push_back(Coordinates(0, -1));
-      obj_coords.push_back(Coordinates(0, 1));
-      obj_coords.push_back(Coordinates(0, 2));
-      break;
+      return LINE;
     }
     case OT_LBLOCK:
     {
-      obj_coords.push_back(Coordinates(0, -1));
-      obj_coords.push_back(Coordinates(0, 1));
-      obj_coords.push_back(Coordinates(1, 1));
-      break;
+      return LBLOCK;
     }
     case OT_JBLOCK:
     {
-      obj_coords.push_back(Coordinates(0, -1));
-      obj_coords.push_back(Coordinates(0, 1));
-      obj_coords.push_back(Coordinates(-1, 1));
-      break;
+      return JBLOCK;
     }
     case OT_SBLOCK:
     {
-      obj_coords.push_back(Coordinates(1, 0));
-      obj_coords.push_back(Coordinates(0, 1));
-      obj_coords.push_back(Coordinates(-1, 1));
-      break;
+      return SBLOCK;
     }
     case OT_ZBLOCK:
     {
-      obj_coords.push_back(Coordinates(-1, 0));
-      obj_coords.push_back(Coordinates(0, 1));
-      obj_coords.push_back(Coordinates(1, 1));
-      break;
+      return ZBLOCK;
     }
     case OT_TBLOCK:
     {
-      obj_coords.push_back(Coordinates(-1, 0));
-      obj_coords.push_back(Coordinates(1, 0));
-      obj_coords.push_back(Coordinates(0, -1));
-      break;
+      return TBLOCK;
     }
   }
-  return obj_coords;
 }

@@ -24,6 +24,14 @@ public:
 
 private:
   static std::vector<Coordinates> get_object(ObjectType type);
+
+  static const std::vector<Coordinates> SQUARE;
+  static const std::vector<Coordinates> LINE;
+  static const std::vector<Coordinates> LBLOCK;
+  static const std::vector<Coordinates> JBLOCK;
+  static const std::vector<Coordinates> SBLOCK;
+  static const std::vector<Coordinates> ZBLOCK;
+  static const std::vector<Coordinates> TBLOCK;
 };
 
 
