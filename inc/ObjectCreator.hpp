@@ -9,6 +9,9 @@
 class ObjectCreator
 {
 public:
+  static std::vector<Coordinates> get_random_object();
+
+private:
   enum ObjectType
   {
     OT_SQUARE = 1,
@@ -20,9 +23,6 @@ public:
     OT_TBLOCK
   };
 
-  static std::vector<Coordinates> get_random_object();
-
-private:
   static std::vector<Coordinates> get_object(ObjectType type);
 
   static const std::vector<Coordinates> SQUARE;
