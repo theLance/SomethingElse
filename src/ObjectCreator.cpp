@@ -1,6 +1,7 @@
 #include <ObjectCreator.hpp>
 
 #include <cstdlib>
+#include <ctime>
 #include <map>
 
 #include "Defines.h"
@@ -101,5 +102,5 @@ namespace
 
 std::vector<Coordinates> ObjectCreator::get_random_object()
 {
-  return OBJECT_MAP.at(ObjectType(rand() % 7 + 1));
+  return OBJECT_MAP.at(ObjectType((time(nullptr) + rand()) % 7 + 1));
 }
