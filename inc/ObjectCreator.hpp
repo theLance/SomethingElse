@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Defines.h"
+struct Coordinates;
 
 
 class ObjectCreator

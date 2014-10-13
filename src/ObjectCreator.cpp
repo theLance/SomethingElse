@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <map>
 
+#include "Defines.h"
+
 
 namespace
 {
