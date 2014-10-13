@@ -103,14 +103,9 @@ namespace
   }
 
   const std::map< ObjectType, std::vector<Coordinates> > OBJECT_MAP = returnMap();
-
-  std::vector<Coordinates> get_object(ObjectType type)
-  {
-    return OBJECT_MAP.at(type);
-  }
 }
 
 std::vector<Coordinates> ObjectCreator::get_random_object()
 {
-  return get_object(ObjectType(rand() % 7 + 1));
+  return OBJECT_MAP.at(ObjectType(rand() % 7 + 1));
 }
