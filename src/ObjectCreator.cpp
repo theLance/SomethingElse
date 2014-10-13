@@ -83,24 +83,16 @@ namespace
     return coords;
   }
 
-  const std::vector<Coordinates> SQUARE = returnSquare();
-  const std::vector<Coordinates> LINE = returnLine();
-  const std::vector<Coordinates> LBLOCK = returnLblock();
-  const std::vector<Coordinates> JBLOCK = returnJblock();
-  const std::vector<Coordinates> SBLOCK = returnSblock();
-  const std::vector<Coordinates> ZBLOCK = returnZblock();
-  const std::vector<Coordinates> TBLOCK = returnTblock();
-
   std::map< ObjectType, std::vector<Coordinates> > returnMap()
   {
     std::map< ObjectType, std::vector<Coordinates> > objs;
-    objs[OT_SQUARE] = SQUARE;
-    objs[OT_LINE] = LINE;
-    objs[OT_LBLOCK] = LBLOCK;
-    objs[OT_JBLOCK] = JBLOCK;
-    objs[OT_SBLOCK] = SBLOCK;
-    objs[OT_ZBLOCK] = ZBLOCK;
-    objs[OT_TBLOCK] = TBLOCK;
+    objs[OT_SQUARE] = returnSquare();
+    objs[OT_LINE]   = returnLine();
+    objs[OT_LBLOCK] = returnLblock();
+    objs[OT_JBLOCK] = returnJblock();
+    objs[OT_SBLOCK] = returnSblock();
+    objs[OT_ZBLOCK] = returnZblock();
+    objs[OT_TBLOCK] = returnTblock();
     return objs;
   }
 
