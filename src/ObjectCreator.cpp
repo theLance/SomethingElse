@@ -5,6 +5,17 @@
 
 namespace
 {
+  enum ObjectType
+  {
+    OT_SQUARE = 1,
+    OT_LINE,
+    OT_LBLOCK,
+    OT_JBLOCK,
+    OT_SBLOCK,
+    OT_ZBLOCK,
+    OT_TBLOCK
+  };
+
   std::vector<Coordinates> returnSquare()
   {
     std::vector<Coordinates> coords;
@@ -68,52 +79,52 @@ namespace
     coords.push_back(Coordinates(0, -1));
     return coords;
   }
-}
 
-const std::vector<Coordinates> ObjectCreator::SQUARE = returnSquare();
-const std::vector<Coordinates> ObjectCreator::LINE = returnLine();
-const std::vector<Coordinates> ObjectCreator::LBLOCK = returnLblock();
-const std::vector<Coordinates> ObjectCreator::JBLOCK = returnJblock();
-const std::vector<Coordinates> ObjectCreator::SBLOCK = returnSblock();
-const std::vector<Coordinates> ObjectCreator::ZBLOCK = returnZblock();
-const std::vector<Coordinates> ObjectCreator::TBLOCK = returnTblock();
+  const std::vector<Coordinates> SQUARE = returnSquare();
+  const std::vector<Coordinates> LINE = returnLine();
+  const std::vector<Coordinates> LBLOCK = returnLblock();
+  const std::vector<Coordinates> JBLOCK = returnJblock();
+  const std::vector<Coordinates> SBLOCK = returnSblock();
+  const std::vector<Coordinates> ZBLOCK = returnZblock();
+  const std::vector<Coordinates> TBLOCK = returnTblock();
+
+  std::vector<Coordinates> get_object(ObjectType type)
+  {
+    switch(type)
+    {
+      case OT_SQUARE:
+      {
+        return SQUARE;
+      }
+      case OT_LINE:
+      {
+        return LINE;
+      }
+      case OT_LBLOCK:
+      {
+        return LBLOCK;
+      }
+      case OT_JBLOCK:
+      {
+        return JBLOCK;
+      }
+      case OT_SBLOCK:
+      {
+        return SBLOCK;
+      }
+      case OT_ZBLOCK:
+      {
+        return ZBLOCK;
+      }
+      case OT_TBLOCK:
+      {
+        return TBLOCK;
+      }
+    }
+  }
+}
 
 std::vector<Coordinates> ObjectCreator::get_random_object()
 {
   return get_object(ObjectType(rand() % 7 + 1));
-}
-
-std::vector<Coordinates> ObjectCreator::get_object(ObjectType type)
-{
-  switch(type)
-  {
-    case OT_SQUARE:
-    {
-      return SQUARE;
-    }
-    case OT_LINE:
-    {
-      return LINE;
-    }
-    case OT_LBLOCK:
-    {
-      return LBLOCK;
-    }
-    case OT_JBLOCK:
-    {
-      return JBLOCK;
-    }
-    case OT_SBLOCK:
-    {
-      return SBLOCK;
-    }
-    case OT_ZBLOCK:
-    {
-      return ZBLOCK;
-    }
-    case OT_TBLOCK:
-    {
-      return TBLOCK;
-    }
-  }
 }
